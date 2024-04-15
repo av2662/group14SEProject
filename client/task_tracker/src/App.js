@@ -6,6 +6,7 @@ import Footer from './components/pages/Footer/Footer';
 import Accordion from './components/Accordion';
 import Login from './components/pages/LoginPage/login';
 import Register from './components/pages/CreateAccountPage/CreateAccount';
+import Monthly from './components/pages/MonthlyPage/monthly';
 function App() {
   return (
     <Router>

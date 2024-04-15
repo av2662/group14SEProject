@@ -3,12 +3,15 @@ import email_icon from './email.png';
 import password_icon from './password.png';
 import React, { useState } from "react"; 
 import Axios from 'axios';
+import Popup from './PwdReset';
+
 
 export default function Login() {
       
    const [emailLogin, setEmailLogin] = useState("");
    const [passwordLogin, setPasswordLogin] = useState("");
    const [loginStatus, setLoginStatus] = useState("");
+   const [showPopup, setShowPopup] = useState(false);
     
    const login = () => {
 
@@ -25,6 +28,14 @@ export default function Login() {
         }
    });
  };
+
+    const handleForgotPasswordClick = () => {
+        setShowPopup(true); // Show the popup
+    };
+
+    const handleClosePopup = () => {
+        setShowPopup(false); // Close the popup
+    };
 
    
     return (
@@ -50,13 +61,14 @@ export default function Login() {
                         }}/>
                     </div>
                 </div>
-                <div className="forgot-password">Forgot Password? <span>Click Here!</span></div>
+                <div className="forgot-password" onClick={handleForgotPasswordClick}>Forgot Password? <span>Click Here!</span></div>
                 <div className="new-here">New Here? <span>Click Here!</span></div>
                 <div className="submit-container">
                     <button className="submit" onClick={login}>Login</button>
                 </div>
                 <h2 align="center" >{loginStatus}</h2>
             </div>
+            <Popup show={showPopup} onClose={handleClosePopup} />
         </div>
     )
 }

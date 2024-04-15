@@ -1,0 +1,61 @@
+.popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #D5B9B2;
+    width: 800px;
+    height: 400px;
+    padding: 20px;
+    border-radius: 5px;
+    border: 5px solid #ECE2D0; /* border color */
+    z-index: 1000; /* ensure the popup appears on top of other elements */
+}
+  
+  .popup-content {
+    background-color: #D5B9B2;
+    padding: 20px;
+    border-radius: 10px;
+  }
+  
+  .popup-content h2 {
+    margin-bottom: 10px;
+    color: #6d2e46;
+  }
+  
+  .popup-content p {
+    margin-bottom: 20px;
+    color: #797979;
+  }
+  
+  .popup-content input[type="email"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .popup-content button {
+    padding: 10px 20px;
+    background-color: #6d2e46;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .popup-content button:hover {
+    background-color: #fff;
+    color: #6d2e46;
+  }
+  
+  .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    color: #6d2e46;
+    cursor: pointer;
+  }
+  
