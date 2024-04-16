@@ -10,8 +10,11 @@ const Popup = ({ show, onClose }) => {
     const [error, setError] = useState('');
 
     const handleSendPasscode = async () => {
+        
+        console.log(email);
+
         try {
-            const response = await Axios.post('http://localhost:3001/send-passcode', { email });
+            const response = await Axios.post('http://localhost:3001/sendpasscode', { email });
             if (response.data.success) {
                 setStep(2);
             } else {
@@ -25,7 +28,7 @@ const Popup = ({ show, onClose }) => {
 
     const handleVerifyPasscode = async () => {
         try {
-            const response = await Axios.post('http://localhost:3001/verify-passcode', { email, passcode });
+            const response = await Axios.post('http://localhost:3001/verifypasscode', { email, passcode });
             if (response.data.success) {
                 setStep(3);
             } else {
@@ -39,7 +42,7 @@ const Popup = ({ show, onClose }) => {
 
     const handleResetPassword = async () => {
         try {
-            const response = await Axios.post('http://localhost:3001/reset-password', { email, newPassword: password });
+            const response = await Axios.post('http://localhost:3001/resetpassword', { email, newPassword: password });
             if (response.data.success) {
                 setError('');
                 onClose();
