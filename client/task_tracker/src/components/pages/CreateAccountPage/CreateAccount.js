@@ -246,7 +246,11 @@ const Register = () => {
                             onBlur={() => setEmailFocus(false)}
                         />
                         </div>
-                        
+                        <p id="emailNote" className={emailFocus && !validEmail ? "instructions" : "offscreen"}>
+                            <FontAwesomeIcon icon={faInfoCircle} />
+                            Example of valid email format:<br />
+                            johndoe@domain.com<br />
+                        </p> 
                         <div className='input'>
                         <label htmlFor="username">
                             
@@ -335,7 +339,7 @@ const Register = () => {
                         Already registered?<br />
                         <span className="line">
                             {/*put router link here*/}
-                            <a href="http://localhost:3000/login">Login Here</a> 
+                            <a className="a-login" href="http://localhost:3000/login">Login Here!</a> 
                         </span>
                     </p>
                 </div>

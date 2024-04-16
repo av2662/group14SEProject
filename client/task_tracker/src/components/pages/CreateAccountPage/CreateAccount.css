@@ -80,9 +80,24 @@ form button:hover {
   background: rgba(192, 56, 176, 0.166);
 }
 
-a, a:visited {
-    color: #fff;
+
+.a-login:visited {
+    color: gray;
+    text-decoration: none;
+    font-weight: bold;
 }
+.a-login:link{
+    color: gray;
+    text-decoration: none; 
+    font-weight: bold;
+}
+
+.a-login:hover{
+    color: white;
+    text-decoration: none; 
+    font-weight: bold;
+}
+
 .input:focus {
   outline: none !important;
   border:1px solid red;
@@ -177,6 +192,7 @@ button {
 
 .line {
     display: inline-block;
+    color: black
 }
 
 .submitCA{
@@ -200,9 +216,12 @@ button {
 }
 
 .loginHere{
+    margin-top:10px;
     margin-left: 225px;
+    color: gray;
 }
 
 .loginHere span{
     margin-left: 25px;
+    /*color: black;*/
 }
