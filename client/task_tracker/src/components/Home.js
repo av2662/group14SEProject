@@ -3,7 +3,7 @@ import { Button } from './Button';
 import { Link } from 'react-router-dom';
 import './Home.css';
 
-function Home({ lightBg, topLine, lightText, lightTextDesc, headline, description, buttonLabel, img, alt, imgStart }) {
+function Home({ lightBg, topLine, lightText, lightTextDesc, headline, description, linkpage, buttonLabel, img, alt, imgStart }) {
     return (
         <>
             <div className={lightBg ? 'home__Home-section' : 'home__Home-section darkBg'}>

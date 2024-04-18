@@ -22,10 +22,7 @@ function Navbar() {
             setButton = (true);
         }
     }
-    /*useEffect =(() => {
-        showButton();
-    }, []);
-    */ 
+
 
     return (
         <>
@@ -48,6 +45,11 @@ function Navbar() {
                         <li className='nav-item'>
                             <Link to='/Contact' className='nav-links' onClick={closeMobileMenu}>
                                 Contact
+                            </Link>
+                        </li>
+                        <li className='nav-item'>
+                            <Link to='/MyHabits' className='nav-links' onClick={closeMobileMenu}>
+                                Habits
                             </Link>
                         </li>
                         <li className='nav-item'>

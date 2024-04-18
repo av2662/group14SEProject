@@ -198,3 +198,21 @@ app.listen(3001, () => {
     console.log("Yey, your server is running on port 3001");
 });
 
+app.post('/habits' , (req, res) => {
+  const username = req.body.username;
+  const name = req.body.name;
+  db.query(
+    'SELECT * FROM habits WHERE username = ?',
+    "INSERT INTO habits (name) VALUES (?)"
+    [username, name],
+    (err, result) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log("Values Inserted");
+        res.send("Values Inserted");
+      }
+    }
+  );
+})
+
