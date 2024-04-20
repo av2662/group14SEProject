@@ -55,9 +55,12 @@ function Navbar() {
                         <li className='nav-item'>
                             <Link to="/login" className='nav-links'>
                                 Login
-                            </Link>
-                           
-                            
+                            </Link>                        
+                        </li>
+                        <li className='nav-item'>
+                            <Link to="/Calendar" className='nav-links'>
+                                Calendar
+                            </Link>                        
                         </li>
                         <li className='nav-btn'>
                             {button ? (

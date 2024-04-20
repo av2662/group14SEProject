@@ -6,7 +6,8 @@ import Footer from './components/pages/Footer/Footer';
 import Accordion from './components/Accordion';
 import Login from './components/pages/LoginPage/login';
 import Register from './components/pages/CreateAccountPage/CreateAccount';
-import Monthly from './components/pages/MonthlyPage/monthly';
+import Calendar1 from './components/pages/CalendarPage/Calendar';
+//import Monthly from './components/pages/MonthlyPage/monthly';
 import MyHabits from './components/MyHabits';
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/login" element={<Login/>}></Route>
         <Route path="/sign-up" element={ <Register/> }></Route> 
         <Route path="/MyHabits" element={<MyHabits/>}></Route>
+        <Route path="/Calendar" element={<Calendar1/>}></Route>
       </Routes>
       <Footer/>
     </Router>
