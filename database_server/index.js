@@ -80,6 +80,55 @@ app.post('/login', (req, res) => {
     }
   );  
 })
+app.get('/eventsGet', (req, res) => {
+  
+  db.query(
+    "SELECT * FROM events",
+    (err, result) => {
+      if (err) {
+        res.send({err: err});
+      } 
+      
+      if (result.length > 0){
+          res.json(result);
+      } else {
+          res.send({message: "Incorrect email or password"});
+      }
+      
+    }
+  );   
+  
+  
+  /*const sql = 'SELECT * FROM events';
+  db.query(sql, (err, rows) => {
+    if (err) {
+      console.error('Error fetching events:', err);
+      res.status(500).json({ error: 'Failed to fetch events' });
+      return;
+    }
+    res.json(rows);
+  }); */
+});
+
+
+app.post('/events', (req, res) => {
+
+  const title = req.body.title;
+  const start = req.body.start;
+  const end = req.body.end
+  db.query(
+    "INSERT INTO events (title, start, end) VALUES (?,?, ?)",
+    [title, start, end],
+    (err, result) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log("Values Inserted");
+        res.send("Values Inserted");
+      }
+    }
+  );  
+})
 
 
 app.post('/sendpasscode', (req, res) => {
@@ -95,31 +144,6 @@ app.post('/sendpasscode', (req, res) => {
       subject: 'Password Reset Passcode',
       text: `Your passcode is: ${passcode}`
   };
-
- /* let transporter = nodemailer.createTransport({
-    sendmail: true,
-    newline: 'unix',
-    path: '/usr/sbin/sendmail'
-});
-*/  
-/*const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  secure: true,
-  auth: {
-      user: 'projectsoftwareproject@gmail.com', // Your email address
-      pass: 'ppbf nejy vdot jwny' // Your email password
-  }
-});
-*/
-
-/* const info = transporter.sendMail({
-    from: 'projectsoftwareproject@gmail.com',
-    to: email,
-    subject: 'Password Reset Passcode',
-    text: `Your passcode is: ${passcode}`
-
-  });
-*/
 
   transporter.sendMail(mailOptions, (error, info) => {
      
