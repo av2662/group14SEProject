@@ -92,25 +92,15 @@ app.get('/eventsGet', (req, res) => {
       if (result.length > 0){
           res.json(result);
       } else {
-          res.send({message: "Incorrect email or password"});
+          res.send({message: "Error receiving events"});
       }
       
     }
   );   
   
-  
-  /*const sql = 'SELECT * FROM events';
-  db.query(sql, (err, rows) => {
-    if (err) {
-      console.error('Error fetching events:', err);
-      res.status(500).json({ error: 'Failed to fetch events' });
-      return;
-    }
-    res.json(rows);
-  }); */
 });
 
-
+//when the user enters a new event
 app.post('/events', (req, res) => {
 
   const title = req.body.title;
@@ -132,7 +122,6 @@ app.post('/events', (req, res) => {
 
 
 app.post('/sendpasscode', (req, res) => {
-  //console.log("help"); 
   
   const { email } = req.body;
   // Generate random passcode

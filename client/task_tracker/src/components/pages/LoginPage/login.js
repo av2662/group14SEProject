@@ -29,6 +29,8 @@ export default function Login() {
         } else{
             //setLoginStatus(response.data[0].username);
             //setLoginStatus(response.data[0].username + " login was successful");
+
+            //handles login state
             window.localStorage.setItem("isLogedIn", true);
             window.localStorage.setItem("user", response.data[0].username);
             navigate('/Calendar'); 

@@ -6,8 +6,6 @@ import moment from 'moment';
 import './Calendar.css';
 import Axios from 'axios';
 
-
-
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 moment.locale('en-GB');
 const localizer = momentLocalizer(moment);
@@ -19,6 +17,8 @@ const Calendar1 = () => {
   const [eventTitle, setEventTitle] = useState('');
   const [selectEvent, setSelectEvent] = useState(null);
 
+
+  //loads events for the user. the array is what populates the calendar
   useEffect(() => {
     Axios.get('http://localhost:3001/eventsGet')
       .then((response) => {
@@ -37,6 +37,7 @@ const Calendar1 = () => {
       });
   }, []);
 
+  //helper function for the useEffect
   const convertDate = (date) => {
     return moment.utc(date).toDate();
   };
@@ -54,6 +55,7 @@ const Calendar1 = () => {
     setEventTitle(event.title);
   };
 
+  // handles the user adding a new event
   const saveEvent = async () => {
     if (eventTitle && selectedDate) {
       try {
@@ -79,14 +81,14 @@ const Calendar1 = () => {
         }
         // errRef.current.focus();
       }
-   
-
       setShowCalendarPopup(false);
       setEventTitle('');
       setSelectEvent(null);
     }
   };
 
+
+  // deletes event; has not been configured without database yet
   const deleteEvent = () => {
     if (selectEvent) {
       const updatedEvents = calEvents.filter((event) => event !== selectEvent);
