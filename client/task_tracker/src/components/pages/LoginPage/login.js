@@ -4,6 +4,7 @@ import password_icon from './password.png';
 import React, { useState } from "react"; 
 import Axios from 'axios';
 import Popup from './PwdReset';
+import { useNavigate } from 'react-router-dom';
 
 
 export default function Login() {
@@ -12,7 +13,10 @@ export default function Login() {
    const [passwordLogin, setPasswordLogin] = useState("");
    const [loginStatus, setLoginStatus] = useState("");
    const [showPopup, setShowPopup] = useState(false);
-    
+   const navigate = useNavigate();
+
+
+
    const login = () => {
 
     Axios.post("http://localhost:3001/login", {
@@ -24,7 +28,11 @@ export default function Login() {
             console.log(response.data);
         } else{
             //setLoginStatus(response.data[0].username);
-            setLoginStatus(response.data[0].username + " login was successful"); 
+            //setLoginStatus(response.data[0].username + " login was successful");
+            window.localStorage.setItem("isLogedIn", true);
+            window.localStorage.setItem("user", response.data[0].username);
+            navigate('/Calendar'); 
+            window.location.reload(true);
         }
    });
  };

@@ -5,9 +5,20 @@ import { FaBars, FaTimes } from 'react-icons/fa';
 import { Button } from './Button';
 import {IconContext} from 'react-icons/lib';
 import './Navbar.css';
+import { useNavigate } from 'react-router-dom';
 
 
 function Navbar() {
+    const navigate = useNavigate();
+    const isLogedIn = window.localStorage.getItem("isLogedIn");
+    const handleLogout = () => {
+        localStorage.clear();
+        navigate('/'); 
+        window.location.reload(true);
+    };
+
+
+    
     const [click, setClick] = useState(false);
     const [button, setButton] = useState(true);
 
@@ -52,16 +63,21 @@ function Navbar() {
                                 Habits
                             </Link>
                         </li>
-                        <li className='nav-item'>
-                            <Link to="/login" className='nav-links'>
-                                Login
-                            </Link>                        
-                        </li>
-                        <li className='nav-item'>
+                        {isLogedIn === null && 
+                             <li className='nav-item'>
+                             <Link to="/login" className='nav-links'>
+                                 Login
+                             </Link>                        
+                         </li>
+                        }
+                        {isLogedIn && (
+                             <li className='nav-item'>
                             <Link to="/Calendar" className='nav-links'>
                                 Calendar
                             </Link>                        
                         </li>
+                        )}
+                        {isLogedIn === null &&
                         <li className='nav-btn'>
                             {button ? (
                                 <Link to='/sign-up' className='btn-link'onClick={closeMobileMenu}>
@@ -73,6 +89,17 @@ function Navbar() {
                                 </Link>
                             )}
                         </li>
+                        }
+                        {isLogedIn &&
+                            <li className='nav-btn'>
+                            {button ? (
+                                    <Button buttonStyle='btn--outline' onClick={handleLogout}> Log Out</Button>
+                            ) : (
+                               
+                                    <Button buttonStyle='btn--outline' buttonSize='btn--mobile' onClick={handleLogout}>Log Out</Button>
+                            )}
+                        </li>
+                        }
                     </ul>
                 </div>
             </div>

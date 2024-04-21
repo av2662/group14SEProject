@@ -10,6 +10,12 @@ import Calendar1 from './components/pages/CalendarPage/Calendar';
 //import Monthly from './components/pages/MonthlyPage/monthly';
 import MyHabits from './components/MyHabits';
 function App() {
+  
+  const isLogedIn = window.localStorage.getItem("isLogedIn");
+  const user = window.localStorage.getItem("user"); 
+  console.log(isLogedIn + "hello");
+  console.log(user);
+  
   return (
     <Router>
       <Navbar />
