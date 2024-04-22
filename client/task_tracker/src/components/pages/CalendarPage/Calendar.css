@@ -1,6 +1,6 @@
 .rbc-header{
     color: white;
-    background-color: gray;
+    background-color:#CEBEBE;
 }
 .rbc-header span{
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
@@ -21,12 +21,12 @@
     height: 400px;
     padding: 20px;
     border-radius: 5px;
-    border: 3px solid black; /* border color */
+    border: 3px solid rgb(177, 175, 175); /* border color */
     z-index: 1000; /* ensure the popup appears on top of other elements */
 }
   
   .popup-contentCalendar {
-    background-color: gray;
+    background-color: rgb(177, 175, 175);
     padding: 20px;
     border-radius: 10px;
   }
@@ -55,7 +55,7 @@
   
   .popup-contentCalendar p {
     margin-bottom: 20px;
-    color: #797979;
+    color: #d5cdcd;
   }
 
   .popup-contentCalendar label {

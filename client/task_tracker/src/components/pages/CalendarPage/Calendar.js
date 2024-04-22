@@ -46,6 +46,7 @@ const Calendar1 = () => {
     setShowCalendarPopup(true);
     setSelectedDate(slotInfo.start);
     setSelectEvent(null);
+    setEventTitle(''); // user is able to add in their own task 
     
   };
 
@@ -117,7 +118,7 @@ const Calendar1 = () => {
           <div className="popupCalendar">
             <div className="popup-contentCalendar">
               <div className="popup-contentCalendarHeader">
-                <h2>{selectEvent ? 'Edit Event' : 'Add Event'}</h2>
+                <h2>{selectEvent ? 'Edit Task' : 'Add Task'}</h2>
                 <button
                   onClick={() => {
                     setShowCalendarPopup(false);
@@ -129,7 +130,7 @@ const Calendar1 = () => {
                 </button>
               </div>
               <div className="popup-contentCalendarEventTitle">
-                <label>Event Title:</label>
+                <label>Task Title:</label>
                 <input
                   type="text"
                   className="form-control"
@@ -145,7 +146,7 @@ const Calendar1 = () => {
                     className="btn btn-danger me-2"
                     onClick={deleteEvent}
                   >
-                    Delete Event
+                    Delete Task
                   </button>
                 )}
                 <button
