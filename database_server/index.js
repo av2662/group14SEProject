@@ -81,9 +81,10 @@ app.post('/login', (req, res) => {
   );  
 })
 app.get('/eventsGet', (req, res) => {
-  
+  const idUsers = req.query.idUsers;
   db.query(
-    "SELECT * FROM events",
+    "SELECT * FROM events WHERE idUsers = ?",
+    [idUsers],
     (err, result) => {
       if (err) {
         res.send({err: err});
@@ -105,10 +106,11 @@ app.post('/events', (req, res) => {
 
   const title = req.body.title;
   const start = req.body.start;
-  const end = req.body.end
+  const end = req.body.end;
+  const idUsers = req.body.idUsers;
   db.query(
-    "INSERT INTO events (title, start, end) VALUES (?,?, ?)",
-    [title, start, end],
+    "INSERT INTO events (title, start, end, idUsers) VALUES (?,?,?,?)",
+    [title, start, end, idUsers],
     (err, result) => {
       if (err) {
         console.log(err);

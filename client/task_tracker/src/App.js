@@ -13,7 +13,7 @@ function App() {
   
   const isLogedIn = window.localStorage.getItem("isLogedIn");
   const user = window.localStorage.getItem("user"); 
-  console.log(isLogedIn + "hello");
+  console.log(isLogedIn);
   console.log(user);
   
   return (

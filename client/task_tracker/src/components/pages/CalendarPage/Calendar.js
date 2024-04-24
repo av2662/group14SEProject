@@ -11,19 +11,40 @@ moment.locale('en-GB');
 const localizer = momentLocalizer(moment);
 
 const Calendar1 = () => {
+
+  const idUsers = window.localStorage.getItem("user");  //get the userId of the user that is logged in
+
   const [calEvents, setCalEvents] = useState([]);
   const [showCalendarPopup, setShowCalendarPopup] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
   const [eventTitle, setEventTitle] = useState('');
   const [selectEvent, setSelectEvent] = useState(null);
 
+  const [eventStart, setEventStart] = useState(null);
+  const [eventEnd, setEventEnd] = useState(null);
+
+
 
   //loads events for the user. the array is what populates the calendar
   useEffect(() => {
-    Axios.get('http://localhost:3001/eventsGet')
+    console.log(idUsers);
+    Axios.get('http://localhost:3001/eventsGet', {
+      params: {
+        idUsers: idUsers,
+      }
+      
+    })
       .then((response) => {
         console.log(response.data);
+        
         let appointments = response.data;
+     
+        if (response.data && response.data.message === "Error receiving events") {
+          // Handle the case where there was an error receiving events or the user 
+          // or the user has not added any events
+          setCalEvents([]);
+          return;
+        }
 
         for (let i = 0; i < appointments.length; i++) {
           appointments[i].start = convertDate(appointments[i].start);
@@ -44,31 +65,35 @@ const Calendar1 = () => {
 
   const handleSelectSlot = (slotInfo) => {
     setShowCalendarPopup(true);
-    setSelectedDate(slotInfo.start);
+    //setSelectedDate(slotInfo.start);
     setSelectEvent(null);
     setEventTitle(''); // user is able to add in their own task 
-    
+    setEventStart('');
+    setEventEnd('');
   };
 
   const handleSelectedEvent = (event) => {
     setShowCalendarPopup(true);
     setSelectEvent(event);
     setEventTitle(event.title);
+    setEventStart(event.start);
+    setEventEnd(event.end);
   };
 
   // handles the user adding a new event
   const saveEvent = async () => {
-    if (eventTitle && selectedDate) {
+    if (eventTitle && eventStart && eventEnd) {
       try {
         const response = await Axios.post('http://localhost:3001/events', {
           title: eventTitle,
-          start: selectedDate,
-          end: moment(selectedDate).add(1, 'hours').toDate(),
+          start: eventStart,
+          end: eventEnd,
+          idUsers: idUsers,
         });
         const newEvent = {
           title: eventTitle,
-          start: selectedDate,
-          end: moment(selectedDate).add(1, 'hours').toDate(),
+          start: eventStart,
+          end: eventEnd,
         };
         setCalEvents([...calEvents, newEvent]); 
         //console.log(response?.data);
@@ -84,7 +109,10 @@ const Calendar1 = () => {
       }
       setShowCalendarPopup(false);
       setEventTitle('');
+      setEventStart(null);
+      setEventEnd(null);
       setSelectEvent(null);
+      window.location.reload(true);
     }
   };
 
@@ -96,9 +124,13 @@ const Calendar1 = () => {
       setCalEvents(updatedEvents);
       setShowCalendarPopup(false);
       setEventTitle('');
+      setEventStart('');
+      setEventEnd('');
       setSelectEvent(null);
     }
   };
+
+  
 
   return (
     <div className="App">
@@ -123,6 +155,7 @@ const Calendar1 = () => {
                   onClick={() => {
                     setShowCalendarPopup(false);
                     setEventTitle('');
+                    setEventStart('')
                     setSelectEvent(null);
                   }}
                 >
@@ -137,6 +170,30 @@ const Calendar1 = () => {
                   id="event-title"
                   value={eventTitle}
                   onChange={(e) => setEventTitle(e.target.value)}
+                />
+              </div>
+              <div className="popup-contentCalendarEventTimeRow">
+                <label>Date Start</label>
+                <input
+                  type="datetime-local"
+                  min="2024-04-01T00:00"
+                  max="2024-12-31T00:00"
+                  className="form-control"
+                  id="event-start"
+                  //placeholder="YYYY-MM-DD 00:00:00"
+                  value={eventStart}
+                  onChange={(e) => setEventStart(e.target.value)}
+                />
+                <label>Date End</label>
+                <input
+                   type="datetime-local"
+                   min="2024-04-01T00:00"
+                   max="2024-12-31T00:00"
+                  className="form-control"
+                  id="event-end"
+                  //placeholder="YYYY-MM-DD 00:00:00"
+                  value={eventEnd}
+                  onChange={(e) => setEventEnd(e.target.value)}
                 />
               </div>
               <div className="modal-footer">

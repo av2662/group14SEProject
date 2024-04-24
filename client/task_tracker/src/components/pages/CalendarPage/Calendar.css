@@ -7,9 +7,22 @@
 }
 
 .rbc-day-bg:hover{
-    background-color: pink;
+    background-color: #CEBEBE;
+}
+.rbc-toolbar-label{
+  color:#6d2e46;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: bold;
+  font-size: x-large;
+}
+.rbc-btn-group button{
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color:#6d2e46
 }
 
+.rbc-event {
+  background-color: #a26769;
+}
 
 .popupCalendar {
     position: fixed;
@@ -18,7 +31,7 @@
     transform: translate(-50%, -50%);
     background-color: white;
     width: 500px;
-    height: 400px;
+    height: flex;
     padding: 20px;
     border-radius: 5px;
     border: 3px solid rgb(177, 175, 175); /* border color */

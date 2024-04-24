@@ -32,7 +32,7 @@ export default function Login() {
 
             //handles login state
             window.localStorage.setItem("isLogedIn", true);
-            window.localStorage.setItem("user", response.data[0].username);
+            window.localStorage.setItem("user", response.data[0].idUsers);
             navigate('/Calendar'); 
             window.location.reload(true);
         }
