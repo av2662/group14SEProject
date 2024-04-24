@@ -108,9 +108,11 @@ app.post('/events', (req, res) => {
   const start = req.body.start;
   const end = req.body.end;
   const idUsers = req.body.idUsers;
+  const priority = req.body.priority;
+
   db.query(
-    "INSERT INTO events (title, start, end, idUsers) VALUES (?,?,?,?)",
-    [title, start, end, idUsers],
+    "INSERT INTO events (title, start, end, priority, idUsers) VALUES (?,?,?,?,?)",
+    [title, start, end, priority, idUsers],
     (err, result) => {
       if (err) {
         console.log(err);
