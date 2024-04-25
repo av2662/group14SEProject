@@ -4,11 +4,15 @@ import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import './Calendar.css';
 import Axios from 'axios';
+	
 
 moment.locale('en-GB');
 const localizer = momentLocalizer(moment);
 
 const Calendar1 = () => {
+
+
+
   const idUsers = window.localStorage.getItem("user");
 
   const [calEvents, setCalEvents] = useState([]);
@@ -63,11 +67,12 @@ const Calendar1 = () => {
   };
 
   const saveEvent = async () => {
+
     if (eventTitle && eventStart && eventEnd && eventPriority) {
       
       const validPriorities = ['low', 'medium', 'high'];
       if (!validPriorities.includes(eventPriority.toLowerCase())) {
-      // If the priority is not one of the valid options, show an error message or handle it appropriately
+      // If the priority is not one of the valid options, show an error message y
       console.log('Invalid priority');
       return;
       }
@@ -76,15 +81,15 @@ const Calendar1 = () => {
       try {
         const response = await Axios.post('http://localhost:3001/events', {
           title: eventTitle,
-          start: eventStart,
-          end: eventEnd,
+          start: moment.utc(eventStart).toDate(),
+          end: moment.utc(eventEnd).toDate(),
           idUsers: idUsers,
           priority: eventPriority,
         });
         const newEvent = {
           title: eventTitle,
-          start: eventStart,
-          end: eventEnd,
+          start: moment(eventStart).toDate(),
+          end: moment(eventEnd).toDate(),
           priority: eventPriority, // Default priority for new events
         };
         setCalEvents([...calEvents, newEvent]);
@@ -97,6 +102,7 @@ const Calendar1 = () => {
       setEventEnd(null);
       setSelectEvent(null);
       setEventPriority('');
+    //  window.location.reload(true);
     }
   };
 
@@ -120,6 +126,7 @@ const Calendar1 = () => {
     };
     if (event.priority.toLowerCase() === 'high') {
       style.backgroundColor = '#6d2e46'; // High priority color
+     // style.textDecoration = "line-through"; this works but only do this when user clicks complete
     } else if (event.priority.toLowerCase() === 'medium') {
       style.backgroundColor = '#a26769'; // Medium priority color
     } else if (event.priority.toLowerCase() === 'low') {
@@ -226,6 +233,20 @@ const Calendar1 = () => {
           </div>
         )}
       </div>
+
+      <div className="legend">
+        <h3 style={{marginLeft: '40px', marginBottom:'12px'}}>Legend</h3>
+        <div style={{ marginLeft: '15px', marginBottom: '12px' }}>
+          <span style={{ color: 'white', backgroundColor: '#6d2e46', padding: '2px 5px', borderRadius: '3px', marginRight: '5px' }}>High</span>
+        </div>
+        <div style={{ marginLeft: '15px', marginBottom: '12px' }}>
+          <span style={{ color:'white', backgroundColor: '#a26769', padding: '2px 5px', borderRadius: '3px', marginRight: '5px' }}>Medium</span>
+        </div>
+        <div style={{marginLeft:'15px',  marginBottom: '12px'}}> 
+          <span style={{ color:'white', backgroundColor: '#cebebe', padding: '2px 5px', borderRadius: '3px', marginRight: '5px' }}>Low</span>
+        </div>
+      </div>
+   
     </div>
   );
 };

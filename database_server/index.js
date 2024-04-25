@@ -1,3 +1,5 @@
+const bcrypt = require('bcryptjs');
+
 const express = require("express");
 const app = express();
 const mysql = require('mysql');
@@ -62,17 +64,28 @@ app.post('/register', (req, res) => {
 app.post('/login', (req, res) => {
 
   const email = req.body.email;
-  const password = req.body.password;
+  const userPassword = req.body.password;
   db.query(
-    "SELECT * FROM users WHERE email = ? AND password = ?",
-    [email, password],
-    (err, result) => {
+    "SELECT * FROM users WHERE email = ?",
+    [email],
+    async(err, result) => {
       if (err) {
         res.send({err: err});
       } 
       
       if (result.length > 0){
+
+          const hashedPassword = result[0].password;
+          const isValid = await bcrypt.compare(userPassword, hashedPassword);
+          console.log(hashedPassword);
+          console.log(userPassword);
+          console.log(isValid);
+          if(!isValid){
+            res.send({message: "Incorrect email or password"});
+          }
+          else{
           res.send(result);
+          }
       } else {
           res.send({message: "Incorrect email or password"});
       }
@@ -181,10 +194,14 @@ app.post('/verifypasscode', (req, res) => {
   });
 });
 
-app.post('/resetpassword', (req, res) => {
+app.post('/resetpassword', async(req, res) => {
   const { email, newPassword } = req.body;
+
+  //hash and salt new password
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassowrd = await bcrypt.hash(newPassword, salt);  
   // Update the user's password in the database with the new password
-  db.query('UPDATE users SET password = ? WHERE email = ?', [newPassword, email], (error, results) => {
+  db.query('UPDATE users SET password = ? WHERE email = ?', [hashedPassowrd, email], (error, results) => {
       if (error) {
           console.error('Error resetting password:', error);
           res.status(500).json({ success: false, message: 'Failed to reset password' });

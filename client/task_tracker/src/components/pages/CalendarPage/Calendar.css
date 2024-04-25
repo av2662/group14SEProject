@@ -20,8 +20,28 @@
   color:#6d2e46
 }
 
+.rbc-agenda-date-cell{
+  background-color: white;
+}
+.rbc-agenda-time-cell{
+  background-color: white;
+}
 
-
+.legend{
+  margin-top: 15px;
+   margin-left: 40%;
+   margin-bottom: 15px;
+   border-radius: 5%;
+   border-color: #6d2e46;
+   border-style: dashed;
+   height: auto;
+   width: 150px;
+   background-color: #ece2D0;
+  padding: '10px';
+  z-index: '1';
+  position: relative;
+        
+}
 .popupCalendar {
     position: fixed;
     top: 50%;
@@ -47,7 +67,7 @@
     top: 6%;
     left: 5%;
     flex-direction: row;
-    padding-bottom: 50px;
+   /* padding-bottom: 50px;*/
   }
 
   .popup-contentCalendarHeader button{

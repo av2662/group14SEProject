@@ -3,15 +3,14 @@ import './CreateAccount.css'
 import { useRef, useState, useEffect } from "react";
 import { faCheck, faTimes, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
+import bcrypt from 'bcryptjs'
 
 import Axios from 'axios';
 
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
 const NAME_REGEX = /^[A-Za-z'-]{2,}$/;
-const EMAIL_REGEX = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-const REGISTER_URL = '/register';
+const EMAIL_REGEX = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
 const Register = () => {
     const userRef = useRef();
@@ -116,19 +115,16 @@ const Register = () => {
         const v3 = NAME_REGEX.test(firstName);
         const v4 = NAME_REGEX.test(lastName);
         const v5 = EMAIL_REGEX.test(email);
-   
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassowrd = await bcrypt.hash(pwd, salt);
+  
         if (!v1 || !v2 || !v3 || !v4 || !v5) {
             setErrMsg("Invalid Entry");
             return;
         }
 
-   /*    Axios.post('http://localhost:3001/register', {firstName: firstName, lastName: lastName, email: email, username: user, password: pwd}
-    ).then(()=> {
-      console.log("success");
-     setErrMsg("IT WORKS");
-    }); */
         try {
-            const response = await Axios.post('http://localhost:3001/register', {firstName: firstName, lastName: lastName, email: email, username: user, password: pwd});
+            const response = await Axios.post('http://localhost:3001/register', {firstName: firstName, lastName: lastName, email: email, username: user, password: hashedPassowrd});
             console.log(response?.data);
             setSuccess(true);
             //clear state and controlled inputs
