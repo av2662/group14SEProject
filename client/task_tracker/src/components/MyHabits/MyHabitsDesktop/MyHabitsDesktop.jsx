@@ -6,7 +6,7 @@ import Goals from '../../Goals';
 import { Button } from '../../Button';
 
 const MyHabitsDesktop = () => {
-    const days = ["M", "T", "W", "T", "F", "S", "S"];
+    const days = ["M", "T", "W", "TH", "F", "S", "S"];
   return (
     <div className='GridContainer'>
         <div className='NavContainer'>
