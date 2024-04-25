@@ -28,11 +28,25 @@
   .btn--medium {
     padding: 8px 20px;
     font-size: 18px;
+    margin-right:16px
   }
   
   .btn--large {
     padding: 12px 26px;
     font-size: 20px;
+  }
+
+  .btn--small{
+    /*padding: 8px 8px;*/
+    font-size: 18px;
+    /*margin-right:16px*/
+  }
+
+  .btn--xs{
+    padding: 10px 12px;
+    font-size: 18px;
+    margin-right:16px;
+    margin-left:16px;
   }
   
   .btn--mobile {
@@ -55,17 +69,24 @@
   
   .btn--large:hover,
   .btn--medium:hover,
+  .btn--small:hover,
   .btn--mobile:hover {
     transition: all 0.3s ease-out;
     background: #fff;
     color: #A26769;
   }
-  
+ 
   .btn--wide:hover {
     color: #fff;
     background-color: #6D2E46;
     transition: all 0.2s ease-out;
   }
+  .btn--xs:hover{
+    color: #fff;
+    background-color: #A26769;
+    transition: all 0.2s ease-out;
+  }
+
   
   .btn-link {
     display: flex;
@@ -83,8 +104,8 @@
     border: none;
   }
   
-  .red {
-    background-color: #f00946;
+  .maroon {
+    background-color: #6D2E46;
     color: #fff;
     border: none;
   }

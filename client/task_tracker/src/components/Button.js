@@ -2,8 +2,8 @@ import React from 'react'
 import './Button.css';
 
 const STYLES = ['btn--primary','btn--outline'];
-const SIZES =['btn--medium', 'btn--large', 'btn--mobile','btn--wide'];
-const COLOR = ['primary', 'blue','green','red'];
+const SIZES =['btn--medium','btn--small','btn--xs','btn--large', 'btn--mobile','btn--wide'];
+const COLOR = ['primary', 'blue','green','red','maroon'];
 
 export const Button = ({children, type, onClick, buttonStyle, buttonSize, buttonColor}) =>{
     const checkButtonStyle = STYLES.includes(buttonStyle) ?

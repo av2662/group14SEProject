@@ -1,51 +1,143 @@
-.GoalsContainer{
+.GoalsContainer {
     display: flex;
     flex-direction: column;
     margin-right: 45px;
 
 }
-.GoalsHeader{
-    display: flex;
-    justify-content: space-between;
+
+.GoalsHeader h1 {
+    display: inline-block;
+    margin-right: 55px;
+}
+
+.GoalsHeader {
+    /*display: flex;
+    justify-content: space-between;*/
     margin-bottom: 45px;
     margin-top: 45px;
-    
+    flex-direction: row;
+
 }
-.TitleSection{
+
+.TitleSection {
+    color: #6D2E46;
     text-transform: uppercase;
-    letter-spacing: 8px;
     font-size: 30px;
 }
-.AddGoalButton{
+
+.AddGoalButton {
+    margin-top: 20px;
     text-transform: uppercase;
     display: flex;
     align-items: center;
-    img{
+
+    img {
         max-width: 16px;
         margin-right: 8px;
     }
 }
-.GoalRow{
+
+.GoalRow {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 45px;
-    :last-child{
+
+    :last-child {
         margin-bottom: 0;
     }
 }
-.Name{
+
+.Name {
     text-transform: uppercase;
 }
-.Action{
+
+.Action {
     display: flex;
     align-items: center;
-    img{
+
+    img {
         max-width: 20px;
         margin-right: 8px;
-        :last-child{
+
+        :last-child {
             margin: 0;
         }
     }
+}
+
+.popupHabits {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #D5B9B2;
+    width: 800px;
+    height: 450px;
+    padding: 20px;
+    border-radius: 5px;
+    border: 5px solid #ECE2D0;
+    /* border color */
+    z-index: 1000;
+    /* ensure the popup appears on top of other elements */
+}
+
+.popup-contentHabits {
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.popup-contentHabitsHeader {
+    position: fixed;
+    top: 6%;
+    left: 5%;
+    flex-direction: row;
+    padding-bottom: 50px;
+}
+
+.popup-contentHabitsEventTitle {
+    margin-top: 50px;
+    margin-left: 25%;
+}
+
+.popup-contentHabitsHeader h2 {
+    display: inline-block;
+    margin-left: 10px;
+    margin-right: 500px;
+    color: #6d2e46;
+}
+
+.popup-labels {
+    margin-right: 10px;
+    color: #6d2e46;
+    font-size: 25px;
+}
+
+.popup-contentHabitsRepeat {
+    color: #6d2e46;
+    font-size: 25px;
+    display: inline-block;
+    margin-left: 345px;
+    margin-top: 10px;
+}
+
+.popup-buttons {
+    margin-left: 280px;
+}
+
+.popup-days {
+    color: #6d2e46;
+    font-size: 25px;
+    display: inline-block;
+    margin-left: 310px;
+    margin-top: 10px;
+}
+
+.popup-daysButtons {
+    margin-left: 150px;
+}
+
+.popup-saveButton {
+    margin-left: 650px;
 }

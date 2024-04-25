@@ -32,6 +32,8 @@
     padding-top: 10px;
     padding-right: 100px;
     margin-bottom: 85px;
+    padding-right: 30px;
+
 }
 
 .HeaderItem{
@@ -41,4 +43,12 @@
     }
     font-size: 22px;
 
+}
+.dayButton{
+    background-color: #A26769;
+    padding: 12px 12px;
+    font-size: 18px;
+    margin-right:16px;
+    margin-left:16px;
+    border-radius: 5;
 }
