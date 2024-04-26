@@ -3,7 +3,7 @@ import './CreateAccount.css'
 import { useRef, useState, useEffect } from "react";
 import { faCheck, faTimes, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import bcrypt from 'bcryptjs'
+
 
 import Axios from 'axios';
 
@@ -115,8 +115,7 @@ const Register = () => {
         const v3 = NAME_REGEX.test(firstName);
         const v4 = NAME_REGEX.test(lastName);
         const v5 = EMAIL_REGEX.test(email);
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassowrd = await bcrypt.hash(pwd, salt);
+       
   
         if (!v1 || !v2 || !v3 || !v4 || !v5) {
             setErrMsg("Invalid Entry");
@@ -124,7 +123,7 @@ const Register = () => {
         }
 
         try {
-            const response = await Axios.post('http://localhost:3001/register', {firstName: firstName, lastName: lastName, email: email, username: user, password: hashedPassowrd});
+            const response = await Axios.post('http://localhost:3001/register', {firstName: firstName, lastName: lastName, email: email, username: user, password: pwd});
             console.log(response?.data);
             setSuccess(true);
             //clear state and controlled inputs
