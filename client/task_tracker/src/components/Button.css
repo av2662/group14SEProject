@@ -41,12 +41,40 @@
     font-size: 18px;
     /*margin-right:16px*/
   }
+  .btn--smallGoals{
+    margin-left: 700px;
+    font-size: 18px;
+    margin-top: 0px;
+    margin-bottom: 20px;
+    /*margin-right:16px*/
+  }
 
   .btn--xs{
-    padding: 10px 12px;
+    width: 45px;
+    height: 45px;
     font-size: 18px;
-    margin-right:16px;
+    margin-right:10px;
     margin-left:16px;
+    margin-bottom: 45px;
+    margin-top: 5px;
+  }
+
+  .btn--goal{
+    width: 900px;
+    height: 120px;
+    font-size: 20px;
+    display: inline-block;
+    margin-left: 40px;
+    margin-right: 70px;
+  }
+  .btn--goalSmaller{
+    width: 900px;
+    height: 80px;
+    font-size: 20px;
+    display: inline-block;
+    margin-left: 40px;
+    margin-right: 70px;
+    font-size: 30px;
   }
   
   .btn--mobile {
@@ -75,15 +103,18 @@
     background: #fff;
     color: #A26769;
   }
- 
-  .btn--wide:hover {
+
+  
+  .btn--wide:hover{
     color: #fff;
     background-color: #6D2E46;
     transition: all 0.2s ease-out;
   }
+  .btn--smallGoals:hover,
+  .btn--goal:hover,
   .btn--xs:hover{
     color: #fff;
-    background-color: #A26769;
+    background-color: #6D2E46;
     transition: all 0.2s ease-out;
   }
 
@@ -123,7 +154,7 @@
   }
   
   .green {
-    background: #25ce4a;
+    background: #A26769;
     color: #fff;
     border: none;
   }

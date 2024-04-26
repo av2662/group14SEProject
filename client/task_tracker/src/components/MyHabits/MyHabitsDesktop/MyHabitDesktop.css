@@ -18,7 +18,19 @@
 
 .MainContainer{
     grid-area: "main";
+    background-color: #e3e3e3;
 }
+.MainGoalsContainer{
+   margin-top: 0px;
+   text-align: center;
+   
+}
+.MainGoalsContainer p{
+    text-align: center;
+    margin-bottom: 0px;
+    font-size: 25px;
+    
+ }
 
 .NavTitle{
     font-size: 30px;
@@ -31,7 +43,7 @@
     align-items: center;
     padding-top: 10px;
     padding-right: 100px;
-    margin-bottom: 85px;
+    margin-bottom: 35px;
     padding-right: 30px;
 
 }
@@ -51,4 +63,20 @@
     margin-right:16px;
     margin-left:16px;
     border-radius: 5;
+}
+
+.circleGoals{
+    display:inline-block;
+    align-items: center;
+    margin-left: 40px;
+    margin-right: 40px;
+    margin-top: 5px;
+}
+
+.daysGoals{
+    display:inline-block;
+    align-items: center;
+    margin-left: 43px;
+    margin-right: 43px;
+    margin-top: 5px;
 }

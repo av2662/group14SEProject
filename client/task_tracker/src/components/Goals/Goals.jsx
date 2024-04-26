@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from "react";
 import './Goals.css';
+import {FaRegTrashAlt, FaPencilAlt} from 'react-icons/fa';
 import { Button } from '../Button';
 import '../../components/Button.css'
 
 
 const Goals = () => {
-    const [AllGoals, setAllGoals] = useState([
-        { id: 0, name: "Loose Weight" },
-        { id: 1, name: "Goal 2" },
-        { id: 2, name: "Goal 3" },
-        { id: 3, name: "Goal 4" }
-    ]);
-    const days = ["M", "T", "W", "TH", "F", "S", "S"];
+    const AllGoals = [
+        { id: 0, name: "Walk Dog" },
+        { id: 1, name: "Habit 2" },
+        { id: 2, name: "Habit 3" },
+        { id: 3, name: "Habit 4" }
+    ];
+    const dayss = ["M", "T", "W", "T", "F", "S", "S"];
     const [showHabitsPopup, setShowHabitsPopup] = useState(false);
     const [eventHabitTitle, setEventHabitTitle] = useState('');
     const [selectedDays, setSelectedDays] = useState([]);  //making buttons clickable
@@ -81,10 +82,7 @@ const Goals = () => {
                 <div className='GoalRow' key={`goal-number-${indx}`}> {/* Ensure unique key for each GoalRow */}
                 {/*<div className='GoalRow' key={`goal-number-` + indx}> */}
                     <div className='Name'>{goal.name}</div>
-                    <div className='Action'>
-                        <img src='img/edit.png' alt='edit-btn' onClick={() => handleEditHabit(goal)} />
-                        <img src='img/delete.png' alt='delete-btn' onClick={() => handleDeleteHabit(goal.id)} />
-                    </div>
+                    <div className='Action'><FaPencilAlt/> <FaRegTrashAlt/></div>
                 </div>
             ))}
             {/* Popup for creating new habit */}
@@ -131,17 +129,8 @@ const Goals = () => {
                         On these days
                     </div>
                     <div className="popup-daysButtons">
-                    {days?.map((item,index) =>(
-                        <Button
-                            key={`day-button-${index}`}
-                            buttonSize='btn--xs'
-                            buttonColor={selectedDays.includes(item) ? 'green' : 'maroon'}
-                            onClick={() => handleDayClick(item)}
-                        >
-                            {item}
-                        </Button>
-                        // <Button key={`day-button-${index}`} buttonSize='btn--xs' buttonColor='maroon'>{item}</Button>
-                        // // <Button buttonSize='btn--xs' buttonColor='maroon'>{item}</Button> 
+                    {dayss?.map((item,index) =>(
+                        <Button buttonSize='btn--xs' buttonColor='maroon' className="daysButton">{item}</Button>
                     ))}
                     </div>
                     <div className="popup-saveButton">

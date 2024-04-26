@@ -135,7 +135,9 @@
 }
 
 .popup-daysButtons {
-    margin-left: 150px;
+    margin-left: 155px;
+    text-align: left;
+
 }
 
 .popup-saveButton {
