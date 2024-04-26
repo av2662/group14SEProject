@@ -8,10 +8,10 @@ import { Button } from '../../Button';
 const MyHabitsDesktop = () => {
     const days = ["M", "T", "W", "TH", "F", "S", "Su"];
     const habits = [
-        { name: "Walk Dog" },
-        { name: "Habit 2" },
-        { name: "Habit 3" },
-        { name: "Habit 4" },
+        { name: "Walk Dog",repeat: "weekly" },
+        { name: "Habit 2" ,repeat: "weekly" },
+        { name: "Habit 3" ,repeat: "daily"},
+        { name: "Habit 4" ,repeat: "daily"}
     ];
     const [showdaily, setShowDaily] = useState(false); //true to false
     const [showWeekly, setShowWeekly] = useState(true); //true to false
@@ -33,7 +33,7 @@ const MyHabitsDesktop = () => {
             <div className='MainContainer'>
             <div className='HeaderContainer'>
                     <Button buttonSize='btn--medium' buttonColor='maroon' onClick={handleSelectWeekly}>Weekly</Button>
-                    <Button buttonSize='btn--medium' buttonColor='maroon' onClick={handleSelectDaily}>Today</Button>
+                    <Button buttonSize='btn--medium' buttonColor='maroon' onClick={handleSelectDaily}>Daily</Button>
                 </div>
                 {showdaily && (
                     <div className='MainGoalsContainer'>

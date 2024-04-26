@@ -8,10 +8,10 @@ import '../../components/Button.css'
 
 const Goals = () => {
     const [AllGoals, setAllGoals] = useState([
-        { id: 0, name: "Walk Dog" },
-        { id: 1, name: "Habit 2" },
-        { id: 2, name: "Habit 3" },
-        { id: 3, name: "Habit 4" }
+        { id: 0, name: "Walk Dog", repeat: "weekly"},
+        { id: 1, name: "Habit 2",  repeat: "weekly"},
+        { id: 2, name: "Habit 3" , repeat: "daily"},
+        { id: 3, name: "Habit 4" , repeat: "daily"}
     ]);
     const days = ["M", "T", "W", "TH", "F", "S", "Su"];
     const [showHabitsPopup, setShowHabitsPopup] = useState(false);
@@ -19,7 +19,7 @@ const Goals = () => {
     const [selectedDays, setSelectedDays] = useState([]);  //making buttons clickable
     const [repeatOption, setRepeatOption] = useState(''); // 'daily' or 'weekly'
     const [editingHabitId, setEditingHabitId] = useState(null); // Track the ID of the habit being edited
-
+    const user = window.localStorage.getItem("user"); // gets the idUser of the loged in user
 
 
     const handleDayClick = (day) => {
@@ -161,23 +161,6 @@ const Goals = () => {
                         </Button>
                         {/* <Button buttonSize='btn--medium' buttonColor='maroon'>Weekly</Button>
                         <Button buttonSize='btn--medium' buttonColor='maroon'>Daily</Button> */}
-                    </div>
-                    <div className="popup-days">
-                        On these days
-                    </div>
-                    <div className="popup-daysButtons">
-                    {days?.map((item,index) =>(
-                        <Button
-                            key={`day-button-${index}`}
-                            buttonSize='btn--xs'
-                            buttonColor={selectedDays.includes(item) ? 'green' : 'maroon'}
-                            onClick={() => handleDayClick(item)}
-                            className={`daysButton ${selectedDays.includes(item) ? 'selected' : ''}`}
-                        >
-                            {item}
-                        </Button>
-                        // {/* // <Button buttonSize='btn--xs' buttonColor='maroon' className="daysButton">{item}</Button> */}
-                    ))}
                     </div>
                     <div className="popup-saveButton">
                     <Button buttonSize='btn--small' buttonColor='maroon' onClick={handleSaveHabit}>Save</Button>

@@ -251,5 +251,19 @@ app.post('/habits' , (req, res) => {
       }
     }
   );
+  app.post('/habits', (req, res) => {
+    //const { idUsers, name } = req.body;
+    const idUsers = req.body.idUsers;
+    const name = req.body.name;
+    console.log(idUsers + "hello");
+    db.query('INSERT INTO habits (idUsers, name) VALUES (?, ?)', [idUsers, name], (err, result) => {
+        if (err) {
+            console.error('Error inserting habit:', err);
+            res.status(500).json({ error: 'Failed to create habit' });
+        } else {
+            res.status(201).json({ message: 'Habit created successfully' });
+        }
+    });
+  });
 })
 
