@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Axios from 'axios';
 import './Goals.css';
 import {FaRegTrashAlt, FaPencilAlt} from 'react-icons/fa';
 import { Button } from '../Button';
@@ -6,17 +7,19 @@ import '../../components/Button.css'
 
 
 const Goals = () => {
-    const AllGoals = [
+    const [AllGoals, setAllGoals] = useState([
         { id: 0, name: "Walk Dog" },
         { id: 1, name: "Habit 2" },
         { id: 2, name: "Habit 3" },
         { id: 3, name: "Habit 4" }
-    ];
-    const dayss = ["M", "T", "W", "T", "F", "S", "S"];
+    ]);
+    const days = ["M", "T", "W", "TH", "F", "S", "Su"];
     const [showHabitsPopup, setShowHabitsPopup] = useState(false);
     const [eventHabitTitle, setEventHabitTitle] = useState('');
     const [selectedDays, setSelectedDays] = useState([]);  //making buttons clickable
     const [repeatOption, setRepeatOption] = useState(''); // 'daily' or 'weekly'
+    const [editingHabitId, setEditingHabitId] = useState(null); // Track the ID of the habit being edited
+
 
 
     const handleDayClick = (day) => {
@@ -40,11 +43,12 @@ const Goals = () => {
 
     const handleSaveHabit = () => {
         // Find the maximum id from existing goals
-        const maxId = Math.max(...AllGoals.map(goal => goal.id));
+        //const maxId = Math.max(...AllGoals.map(goal => goal.id));
 
         // Generate a new habit with a unique id
         const newHabit = {
-            id: AllGoals.length, // Generate unique ID
+            //id: AllGoals.length, // Generate unique ID
+            id: editingHabitId !== null ? editingHabitId : AllGoals.length, // Use editingHabitId if exists, otherwise generate new ID
             name: eventHabitTitle,
             days: selectedDays,
             repeat: repeatOption
@@ -52,16 +56,46 @@ const Goals = () => {
 
         //Add the new habit to the AllGoals array
         //setAllGoals([...AllGoals, newHabit]);
-        setAllGoals(prevGoals => [...prevGoals, newHabit]);
+        // setAllGoals(prevGoals => [...prevGoals, newHabit]);
+        // setShowHabitsPopup(false);
+
+        // If editing an existing habit, update it
+        if (editingHabitId !== null) {
+            const updatedGoals = AllGoals.map(goal => (goal.id === editingHabitId ? newHabit : goal));
+            setAllGoals(updatedGoals);
+        } else {
+            // Otherwise, add a new habit
+            setAllGoals(prevGoals => [...prevGoals, newHabit]);
+        }
+
+        // Reset editingHabitId and close the popup
+        setEditingHabitId(null);
         setShowHabitsPopup(false);
+        // Clear form fields
+        setEventHabitTitle('');
+        setSelectedDays([]);
+        setRepeatOption('');    
+
     }
 
-    const handleEditHabit = (editedHabit) => {
-        const updatedGoals = AllGoals.map(goal => 
-            goal.id === editedHabit.id ? editedHabit : goal
-        );
-        setAllGoals(updatedGoals);
-        setShowHabitsPopup(false);
+    const handleEditHabit = (habit) => {
+
+        // Set the habit's data in the form fields
+        setEventHabitTitle(habit.name);
+        setSelectedDays(habit.days);
+        setRepeatOption(habit.repeat);
+
+        // Set editingHabitId to the habit's ID
+        setEditingHabitId(habit.id);
+
+        // Show the popup for editing
+        setShowHabitsPopup(true);
+
+        // const updatedGoals = AllGoals.map(goal => 
+        //     goal.id === editedHabit.id ? editedHabit : goal
+        // );
+        // setAllGoals(updatedGoals);
+        // setShowHabitsPopup(false);
     }
 
     const handleDeleteHabit = (habitId) => {
@@ -82,7 +116,10 @@ const Goals = () => {
                 <div className='GoalRow' key={`goal-number-${indx}`}> {/* Ensure unique key for each GoalRow */}
                 {/*<div className='GoalRow' key={`goal-number-` + indx}> */}
                     <div className='Name'>{goal.name}</div>
-                    <div className='Action'><FaPencilAlt/> <FaRegTrashAlt/></div>
+                    <div className='Action'>
+                        <FaPencilAlt onClick={() => handleEditHabit(goal)} /> 
+                        <FaRegTrashAlt onClick={() => handleDeleteHabit(goal.id)} />
+                    </div>
                 </div>
             ))}
             {/* Popup for creating new habit */}
@@ -129,8 +166,17 @@ const Goals = () => {
                         On these days
                     </div>
                     <div className="popup-daysButtons">
-                    {dayss?.map((item,index) =>(
-                        <Button buttonSize='btn--xs' buttonColor='maroon' className="daysButton">{item}</Button>
+                    {days?.map((item,index) =>(
+                        <Button
+                            key={`day-button-${index}`}
+                            buttonSize='btn--xs'
+                            buttonColor={selectedDays.includes(item) ? 'green' : 'maroon'}
+                            onClick={() => handleDayClick(item)}
+                            className={`daysButton ${selectedDays.includes(item) ? 'selected' : ''}`}
+                        >
+                            {item}
+                        </Button>
+                        // {/* // <Button buttonSize='btn--xs' buttonColor='maroon' className="daysButton">{item}</Button> */}
                     ))}
                     </div>
                     <div className="popup-saveButton">

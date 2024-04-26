@@ -143,3 +143,13 @@
 .popup-saveButton {
     margin-left: 650px;
 }
+
+
+.popup-daysButtons .daysButton {
+    margin-right: 10px;
+}
+
+.popup-daysButtons .daysButton.selected {
+    background-color: green; /* Change to the color you want for selected days */
+    color: white; /* Change to the text color for selected days */
+}

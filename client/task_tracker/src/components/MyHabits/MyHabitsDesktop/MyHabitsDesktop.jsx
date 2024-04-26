@@ -6,7 +6,7 @@ import Goals from '../../Goals';
 import { Button } from '../../Button';
 
 const MyHabitsDesktop = () => {
-    const days = ["M", "T", "W", "T", "F", "S", "S"];
+    const days = ["M", "T", "W", "TH", "F", "S", "Su"];
     const habits = [
         { name: "Walk Dog" },
         { name: "Habit 2" },
