@@ -40,16 +40,19 @@ const db = mysql.createConnection({
     database: "test_schema",
 });
 
-app.post('/register', (req, res) => {
+app.post('/register', async(req, res) => {
   const firstName = req.body.firstName;
   const lastName = req.body.lastName;
   const email = req.body.email;
   const username = req.body.username;
   const password = req.body.password;
 
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassowrd = await bcrypt.hash(newPassword, salt);  
+
   db.query(
     "INSERT INTO users (firstName, lastName, email, username, password) VALUES (?,?,?,?,?)",
-    [firstName, lastName, email, username, password],
+    [firstName, lastName, email, username, hashedPassword],
     (err, result) => {
       if (err) {
         console.log(err);
