@@ -15,7 +15,7 @@ function Home({ lightBg, topLine, lightText, lightTextDesc, headline, descriptio
                                 <div className='top-line'>{topLine}</div>
                                 <h1 className={lightText ? 'heading' : 'heading dark'}>{headline}</h1>
                                 <p className={lightTextDesc ? 'home__Home-subtitle' : 'home__Home-subtitle dark'}>{description}</p>
-                                <Link to="/sign-up">
+                                <Link to={linkpage}>
                                     <Button buttonSize='btn--wide' buttonColor='blue'>{buttonLabel}</Button>
                                 </Link>
                             </div>
