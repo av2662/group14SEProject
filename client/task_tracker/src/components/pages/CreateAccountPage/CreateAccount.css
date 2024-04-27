@@ -22,6 +22,7 @@
 
 .containerCA{
     display:flex;
+    border-radius: 5%;
     flex-direction:column;
     margin: 100px auto;
     background: #d5b9b2;
@@ -146,17 +147,6 @@ button {
     width: 400px;
     bottom: -10px;
     
-    /*
-    width: 400px;
-    margin-left: 100px;
-    font-size: 0.75rem;
-    border-radius: 0.5rem;
-    background: #000;
-    color: #fff;
-    padding: 0.25rem;
-    position: relative;
-    bottom: -10px;
-    */
 }
 
 .instructions > svg {
@@ -183,11 +173,13 @@ button {
 }
 
 .errmsg {
-    background-color: lightpink;
+    background-color: white;
     color: firebrick;
     font-weight: bold;
-    padding: 0.5rem;
-    margin-bottom: 0.5rem;
+    font-size: larger;
+    align-content: center;
+    height: 50px;
+   
 }
 
 .line {
@@ -224,4 +216,21 @@ button {
 .loginHere span{
     margin-left: 25px;
     /*color: black;*/
+}
+
+.adminCheck {
+    display: inline-block; /* Use flexbox to align items */    
+    text-align: center;
+    
+}
+
+.adminCheck label{
+    margin-right: 5px;
+    font-size: large;
+    color: #706f6f;
+   
+}
+  
+.adminCheck input[type="checkbox"] {
+    margin-right: 8px; /* Add some space between checkbox and label */
 }

@@ -304,6 +304,7 @@ app.listen(3001, () => {
     console.log("Yey, your server is running on port 3001");
 });
 
+
 // Add endpoint to handle adding a habit
 app.post('/habits', (req, res) => {
   const { name, repeat, idUsers } = req.body; // Ensure idUsers is included

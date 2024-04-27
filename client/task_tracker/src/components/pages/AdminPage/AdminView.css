@@ -1,0 +1,61 @@
+.backgroundAdmin{
+    background-color: white;
+    display: flex;
+    height: 750px;
+    margin-right: -15px;
+    margin-bottom: -15px;
+    margin-left: -15px;
+    flex-wrap: wrap;
+    align-content: stretch;
+   
+}
+
+
+.containerAdmin{
+    
+    display:flex;
+    flex-direction:column;
+    margin: 100px auto;
+    background: white;
+    width: 900px;
+    padding-bottom:30px;
+    
+
+}
+
+.headerAdmin{
+    text-align: center;
+    font-size: 35px;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-weight: bolder;
+}
+
+.directionsAdmin p{
+    text-align: center;
+    font-size: 20px;
+    margin-top: 20px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.adminDateRow {
+    text-align: center;
+    margin-top: 10px;
+    display: inline-block;
+}
+
+.adminDateRow label{
+    font-size: 20px;
+    margin-right: 5px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.adminDateRow input{
+    width: 100px;
+    height: 25px;
+    margin-right: 5px;
+}
+
+.adminDateRow button{
+    width: 100px;
+    height: 25px;
+}

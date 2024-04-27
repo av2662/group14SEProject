@@ -3,8 +3,6 @@ import './CreateAccount.css'
 import { useRef, useState, useEffect } from "react";
 import { faCheck, faTimes, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
-
 import Axios from 'axios';
 
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
@@ -50,38 +48,9 @@ const Register = () => {
     const [errMsg, setErrMsg] = useState('');
     const [success, setSuccess] = useState(false);
 
-    
+    const [isAdmin, setIsAdmin] = useState(false);
 
-    useEffect(() => {
-        userRef.current.focus();
-        userRef.current.style.outlineColor = "#a26769";
-    }, [])
 
-    useEffect(() => {
-        firstNameRef.current.focus();
-        firstNameRef.current.style.outlineColor = "#a26769";
-    }, []) 
-
-    useEffect(() => {
-        lastNameRef.current.focus();
-        lastNameRef.current.style.outlineColor = "#a26769";
-    }, [])
-
-    useEffect(() => {
-        emailRef.current.focus();
-        emailRef.current.style.outlineColor = "#a26769";
-    }, []) 
-
-    useEffect(() => {
-        pwdRef.current.focus();
-        pwdRef.current.style.outlineColor = "#a26769";
-    }, [])
-    
-    useEffect(() => {
-        matchPwdRef.current.focus();
-        matchPwdRef.current.style.outlineColor = "#a26769";
-    }, []) 
-    
     useEffect(() => {
         setValidFirstName(NAME_REGEX.test(firstName));
     }, [firstName])
@@ -109,21 +78,19 @@ const Register = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // if button enabled with JS hack
         const v1 = USER_REGEX.test(user);
         const v2 = PWD_REGEX.test(pwd);
         const v3 = NAME_REGEX.test(firstName);
         const v4 = NAME_REGEX.test(lastName);
         const v5 = EMAIL_REGEX.test(email);
        
-  
         if (!v1 || !v2 || !v3 || !v4 || !v5) {
             setErrMsg("Invalid Entry");
             return;
         }
-
         try {
-            const response = await Axios.post('http://localhost:3001/register', {firstName: firstName, lastName: lastName, email: email, username: user, password: pwd});
+            const response = await Axios.post('http://localhost:3001/register', 
+            {firstName: firstName, lastName: lastName, email: email, username: user, password: pwd, isAdmin: isAdmin});
             console.log(response?.data);
             setSuccess(true);
             //clear state and controlled inputs
@@ -134,12 +101,16 @@ const Register = () => {
             setUser('');
             setPwd('');
             setMatchPwd('');
+            setIsAdmin(false);
         } catch (err) {
             if (!err?.response) {
                 setErrMsg('No Server Response');
-            } else if (err.response?.status === 409) {
-                setErrMsg('Username Taken');
-            } else {
+            } else if (err.response?.status === 400) {
+                setErrMsg('Error: Email has already been registered with an account.');
+            } else if (err.response?.status === 600) {
+                setErrMsg('Error: Email is not a verified admin email.')
+            }
+             else {
                 setErrMsg('Registration Failed')
             }
             errRef.current.focus();
@@ -159,7 +130,6 @@ const Register = () => {
                 </div>
             ) : (
                 <div className='sectioncA'>
-                    <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
                     <div className='headerCA'>
                         <div className="textHeaderCA">Register</div>
                     </div>
@@ -325,7 +295,17 @@ const Register = () => {
                             <FontAwesomeIcon icon={faInfoCircle} />
                             Must match the first password input field.
                         </p>
-             
+
+                        <div className="adminCheck">
+                            <label htmlFor="isAdmin">Are you a verified admin?</label>
+                            <input
+                                type="checkbox"
+                                id="isAdmin"
+                                onChange={(e) => setIsAdmin(e.target.checked)}
+                                checked={isAdmin}
+                            />
+                        </div>
+                                        
                         <button className='submitCA' disabled={!validFirstName || !validLastName || !validEmail || !validUser || !validPwd || !validMatch ? true : false} >Sign Up</button>
                     </form>
 
@@ -337,6 +317,7 @@ const Register = () => {
                             <a className="a-login" href="http://localhost:3000/login">Login Here!</a> 
                         </span>
                     </p>
+                    <div ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</div>
                 </div>
             )}
             </div>

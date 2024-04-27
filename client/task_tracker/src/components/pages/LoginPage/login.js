@@ -33,6 +33,9 @@ export default function Login() {
             //handles login state
             window.localStorage.setItem("isLogedIn", true);
             window.localStorage.setItem("user", response.data[0].idUsers);
+            if(response.data[0].isAdmin === 1){
+                window.localStorage.setItem("isAdmin", true); 
+            }
             navigate('/Calendar'); 
             window.location.reload(true);
         }

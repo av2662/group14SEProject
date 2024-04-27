@@ -10,7 +10,9 @@ import { useNavigate } from 'react-router-dom';
 
 function Navbar() {
     const navigate = useNavigate();
-    const isLogedIn = window.localStorage.getItem("isLogedIn");
+    const isLoggedIn = window.localStorage.getItem("isLogedIn");
+    const isAdmin = window.localStorage.getItem("isAdmin");
+
     const handleLogout = () => {
         localStorage.clear();
         navigate('/'); 
@@ -53,12 +55,14 @@ function Navbar() {
                                 Home
                             </Link>
                         </li>
+                        {isAdmin != null && (
                         <li className='nav-item'>
-                            <Link to='/Contact' className='nav-links' onClick={closeMobileMenu}>
-                                Contact
+                            <Link to='/AdminPage' className='nav-links' onClick={closeMobileMenu}>
+                                Admin
                             </Link>
                         </li>
-                        {isLogedIn &&
+                       )}
+                        {isLoggedIn &&
                              <li className='nav-item'>
                              <Link to='/MyHabits' className='nav-links' onClick={closeMobileMenu}>
                                  Habits
@@ -66,21 +70,21 @@ function Navbar() {
                          </li>
                         }
                        
-                        {isLogedIn === null && 
+                        {isLoggedIn === null && 
                              <li className='nav-item'>
                              <Link to="/login" className='nav-links'>
                                  Login
                              </Link>                        
                          </li>
                         }
-                        {isLogedIn && (
+                        {isLoggedIn && (
                              <li className='nav-item'>
                             <Link to="/Calendar" className='nav-links'>
                                 Calendar
                             </Link>                        
                         </li>
                         )}
-                        {isLogedIn === null &&
+                        {isLoggedIn === null &&
                         <li className='nav-btn'>
                             {button ? (
                                 <Link to='/sign-up' className='btn-link'onClick={closeMobileMenu}>
@@ -93,7 +97,7 @@ function Navbar() {
                             )}
                         </li>
                         }
-                        {isLogedIn &&
+                        {isLoggedIn &&
                             <li className='nav-btn'>
                             {button ? (
                                     <Button buttonStyle='btn--outline' onClick={handleLogout}> Log Out</Button>

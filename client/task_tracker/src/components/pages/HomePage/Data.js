@@ -32,7 +32,7 @@ export const homeObjThree = {
     lightText: true,
     lightTextDesc: true,
     topLine: 'EASY SETUP',
-    headline: 'An online calendar where you can track your habits and task',
+    headline: 'An online calendar where you can track your habits and tasks',
     description: "Get everything set up and ready in under 10 minutes. All you need to do is create a habit and set up your tasks.",
     buttonLabel: 'Create Account',
     linkpage:"/sign-up",
