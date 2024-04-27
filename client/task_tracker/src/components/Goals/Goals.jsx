@@ -7,30 +7,32 @@ import '../../components/Button.css'
 
 
 const Goals = () => {
-    const [AllGoals, setAllGoals] = useState([
-        { id: 0, name: "Walk Dog", repeat: "weekly"},
-        { id: 1, name: "Habit 2",  repeat: "weekly"},
-        { id: 2, name: "Habit 3" , repeat: "daily"},
-        { id: 3, name: "Habit 4" , repeat: "daily"}
-    ]);
-    const days = ["M", "T", "W", "TH", "F", "S", "Su"];
+    const user = JSON.parse(window.localStorage.getItem("user")); // Parse user object and retrieve from local storage// this no longer works- anna
+    const idUsers = window.localStorage.getItem("user"); //this gets the userId - anna
+   
+    const [AllGoals, setAllGoals] = useState([]);
     const [showHabitsPopup, setShowHabitsPopup] = useState(false);
     const [eventHabitTitle, setEventHabitTitle] = useState('');
-    const [selectedDays, setSelectedDays] = useState([]);  //making buttons clickable
     const [repeatOption, setRepeatOption] = useState(''); // 'daily' or 'weekly'
     const [editingHabitId, setEditingHabitId] = useState(null); // Track the ID of the habit being edited
-    const user = window.localStorage.getItem("user"); // gets the idUser of the loged in user
 
+    useEffect(() => {
+        // Fetch habits when component mounts
+        fetchHabits();
+    }, []);
 
-    const handleDayClick = (day) => {
-        setSelectedDays(prevSelectedDays => {
-            if (prevSelectedDays.includes(day)) {
-                return prevSelectedDays.filter(d => d !== day);
-            } else {
-                return [...prevSelectedDays, day];
-            }
-        });
-    }
+    const fetchHabits = async () => {
+        try {
+            const response = await Axios.get('http://localhost:3001/habitsGet', {
+                params: { idUsers: idUsers },
+              })
+            setAllGoals(response.data);
+        } catch (error) {
+            console.error('Error fetching habits:', error);
+        }
+    };
+
+    //console.log("User:", user); // Log user object to verify 
 
     const handleRepeatOptionClick = (option) => {
         setRepeatOption(option);
@@ -42,65 +44,56 @@ const Goals = () => {
 
 
     const handleSaveHabit = () => {
-        // Find the maximum id from existing goals
-        //const maxId = Math.max(...AllGoals.map(goal => goal.id));
-
-        // Generate a new habit with a unique id
-        const newHabit = {
-            //id: AllGoals.length, // Generate unique ID
-            id: editingHabitId !== null ? editingHabitId : AllGoals.length, // Use editingHabitId if exists, otherwise generate new ID
-            name: eventHabitTitle,
-            days: selectedDays,
-            repeat: repeatOption
-        };
-
-        //Add the new habit to the AllGoals array
-        //setAllGoals([...AllGoals, newHabit]);
-        // setAllGoals(prevGoals => [...prevGoals, newHabit]);
-        // setShowHabitsPopup(false);
-
-        // If editing an existing habit, update it
-        if (editingHabitId !== null) {
-            const updatedGoals = AllGoals.map(goal => (goal.id === editingHabitId ? newHabit : goal));
-            setAllGoals(updatedGoals);
-        } else {
-            // Otherwise, add a new habit
-            setAllGoals(prevGoals => [...prevGoals, newHabit]);
+        // Check if user object is defined
+        if (!user) {
+            console.error('User object is undefined.');
+            // Display an error message to the user or redirect to login page
+            return;
         }
-
-        // Reset editingHabitId and close the popup
-        setEditingHabitId(null);
-        setShowHabitsPopup(false);
-        // Clear form fields
-        setEventHabitTitle('');
-        setSelectedDays([]);
-        setRepeatOption('');    
-
+    
+        // Construct the newHabit object with name, repeat, and idUsers properties
+        const newHabit = {
+            name: eventHabitTitle,
+            repeat: repeatOption,
+            idUsers: idUsers // Include idUsers in the newHabit object
+        };
+    
+        // Send POST request to create a new habit
+        Axios.post('http://localhost:3001/habits', newHabit)
+            .then(response => {
+                console.log("Habit created successfully");
+                // Fetch updated habits after adding a new one
+                fetchHabits();
+                // Reset form fields and close popup
+                setShowHabitsPopup(false);
+                setEventHabitTitle('');
+                setRepeatOption('');
+            })
+            .catch(error => {
+                console.error('Error adding habit:', error);
+                //alert('Error adding habit. Please try again.'); // Display error message
+            });
     }
+    
 
     const handleEditHabit = (habit) => {
 
         // Set the habit's data in the form fields
         setEventHabitTitle(habit.name);
-        setSelectedDays(habit.days);
         setRepeatOption(habit.repeat);
-
         // Set editingHabitId to the habit's ID
         setEditingHabitId(habit.id);
-
         // Show the popup for editing
         setShowHabitsPopup(true);
-
-        // const updatedGoals = AllGoals.map(goal => 
-        //     goal.id === editedHabit.id ? editedHabit : goal
-        // );
-        // setAllGoals(updatedGoals);
-        // setShowHabitsPopup(false);
     }
 
-    const handleDeleteHabit = (habitId) => {
-        const updatedGoals = AllGoals.filter(goal => goal.id !== habitId);
-        setAllGoals(updatedGoals);
+    const handleDeleteHabit = async (habitId) => {
+        try {
+            await Axios.delete(`http://localhost:3001/habits/${habitId}`);
+            fetchHabits(); // Refresh habits after deleting
+        } catch (error) {
+            console.error('Error deleting habit:', error);
+        }
     }
 
     return (

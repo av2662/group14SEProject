@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import './MyHabitDesktop.css';
 import '../../Button.css';
 import {FaCircle, FaRegCircle} from 'react-icons/fa';
-import Goals from '../../Goals';
+import Goals from '../../Goals/Goals';
 import { Button } from '../../Button';
 
 const MyHabitsDesktop = () => {

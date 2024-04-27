@@ -1,11 +1,11 @@
 const bcrypt = require('bcryptjs');
-
 const express = require("express");
 const app = express();
 const mysql = require('mysql');
 const cors = require('cors');
-
 const nodemailer = require('nodemailer');
+
+
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
@@ -23,15 +23,7 @@ app.use(express.json());
 // Create an Express router
 const router = express.Router();
 
-// Set up Nodemailer transporter
-/*const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        user: 'projectsoftwareproject@gmail.com', // Your email address
-        pass: 'Password098!@' // Your email password
-    }
-});
-*/
+
 const db = mysql.createConnection({
     host: 'database-1.cj4iawuucsa5.us-east-1.rds.amazonaws.com',
     port: '3306',
@@ -40,30 +32,60 @@ const db = mysql.createConnection({
     database: "test_schema",
 });
 
-app.post('/register', async(req, res) => {
+
+/*------------
+Registers new accounts to the database
+--------------*/
+app.post('/register', async (req, res) => {
   const firstName = req.body.firstName;
   const lastName = req.body.lastName;
   const email = req.body.email;
   const username = req.body.username;
   const password = req.body.password;
 
-  const salt = await bcrypt.genSalt(10);
-  const hashedPassowrd = await bcrypt.hash(newPassword, salt);  
-
+  // Check if the email is already taken
   db.query(
-    "INSERT INTO users (firstName, lastName, email, username, password) VALUES (?,?,?,?,?)",
-    [firstName, lastName, email, username, hashedPassword],
-    (err, result) => {
+    "SELECT * FROM users WHERE email = ?",
+    [email],
+    async (err, result) => {
       if (err) {
         console.log(err);
+        res.status(500).json({ error: "Internal Server Error" });
+        return;
+      }
+
+      if (result.length > 0) {
+        // Email already exists
+        res.status(400).json({ error: "Email already taken" });
       } else {
-        console.log("Values Inserted");
-        res.send("Values Inserted");
+        // Email is available, proceed with registration
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+        const date_registered = new Date();
+
+        db.query(
+          "INSERT INTO users (firstName, lastName, email, username, password, date_registered) VALUES (?,?,?,?,?, ?)",
+          [firstName, lastName, email, username, hashedPassword, date_registered],
+          (err, result) => {
+            if (err) {
+              console.log(err);
+              res.status(500).json({ error: "Internal Server Error" });
+            } else {
+              console.log("Values Inserted");
+              res.send("Values Inserted");
+            }
+          }
+        );
       }
     }
   );
-})
+});
 
+
+
+/*------------
+Verifies login
+--------------*/
 app.post('/login', (req, res) => {
 
   const email = req.body.email;
@@ -96,6 +118,11 @@ app.post('/login', (req, res) => {
     }
   );  
 })
+
+/*------------
+Feteches the events from the database that
+corresponds to the logged in user
+--------------*/
 app.get('/eventsGet', (req, res) => {
   const idUsers = req.query.idUsers;
   db.query(
@@ -117,7 +144,36 @@ app.get('/eventsGet', (req, res) => {
   
 });
 
-//when the user enters a new event
+/*------------
+This is only available to admin type users.
+Recieves a count of users that have registered in the 
+past 2 weeks.
+--------------*/
+app.get('/adminInfo', (req, res) => {
+  const twoWeeksAgo = new Date();
+  twoWeeksAgo.setDate(twoWeeksAgo.getDate() - 14);
+
+  //console.log('Two weeks ago:', twoWeeksAgo);
+
+db.query(
+  "SELECT COUNT(*) AS userCount FROM users WHERE date_registered >= ?", [twoWeeksAgo], (err, result) => {
+    if (err) {
+      // If there's an error, send an error response
+      res.status(500).json({ error: err.message });
+    } else {
+      // If successful, send the count of users as JSON
+      res.json({ userCount: result[0].userCount });
+    }
+  }
+
+);
+
+
+})
+
+/*------------
+New events are stored into the database.
+--------------*/
 app.post('/events', (req, res) => {
 
   const title = req.body.title;
@@ -140,7 +196,10 @@ app.post('/events', (req, res) => {
   );  
 })
 
-
+/*------------
+Sends a passcode to the user who has forgotten their password.
+The 4 digit passcode is stored in the database.
+--------------*/
 app.post('/sendpasscode', (req, res) => {
   
   const { email } = req.body;
@@ -176,6 +235,11 @@ app.post('/sendpasscode', (req, res) => {
   
 });
 
+
+/*-----------------------------------
+Verifies that the user has entered the 
+correct passcode they recieved.
+-------------------------------------*/
 app.post('/verifypasscode', (req, res) => {
   const { email, passcode } = req.body;
   
@@ -197,6 +261,11 @@ app.post('/verifypasscode', (req, res) => {
   });
 });
 
+
+/*------------------------------------------------
+Resets password for the user. Password is properly 
+hashed and salted before entering database.
+-------------------------------------------------*/
 app.post('/resetpassword', async(req, res) => {
   const { email, newPassword } = req.body;
 
@@ -235,35 +304,88 @@ app.listen(3001, () => {
     console.log("Yey, your server is running on port 3001");
 });
 
-app.post('/habits' , (req, res) => {
-  const username = req.body.username;
-  const name = req.body.name;
+// Add endpoint to handle adding a habit
+app.post('/habits', (req, res) => {
+  const { name, repeat, idUsers } = req.body; // Ensure idUsers is included
+  console.log(name, repeat, idUsers); //check if you stored everything
+  // Check for missing or invalid inputs
+  if (!idUsers || !name || !repeat) {
+      return res.status(400).json({ success: false, message: 'User ID, name, and repeat are required' });
+  }
+  // Insert the new habit into the database
   db.query(
-    'SELECT * FROM habits WHERE username = ?',
-    "INSERT INTO habits (name) VALUES (?)"
-    [username, name],
+      'INSERT INTO habits (idUsers, name, `repeat`) VALUES (?, ?, ?)',
+      [idUsers, name, repeat],
+      (err, result) => {
+          if (err) {
+              console.error('Error creating habit:', err);
+              return res.status(500).json({ success: false, message: 'Failed to create habit', error: err });
+          }
+          console.log("Habit created successfully");
+          return res.status(201).json({ success: true, message: 'Habit created successfully' });
+      }
+  );
+});
+
+// Add endpoint to handle deleting a habit
+app.delete('/habits/:id', (req, res) => {
+  const habitId = req.params.id;
+  // Delete the habit from the database
+  db.query(
+      'DELETE FROM habits WHERE idHabits = ?',
+      [habitId],
+      (err, result) => {
+          if (err) {
+              console.error('Error deleting habit:', err);
+              return res.status(500).json({ success: false, message: 'Failed to delete habit', error: err });
+          }
+          console.log("Habit deleted successfully");
+          return res.status(200).json({ success: true, message: 'Habit deleted successfully' });
+      }
+  );
+});
+
+// Add endpoint to handle editing a habit
+app.put('/habits/:id', (req, res) => {
+  const habitId = req.params.id;
+  const { name, repeat } = req.body;
+  // Check for missing or invalid inputs
+  if (!name || !repeat) {
+      return res.status(400).json({ success: false, message: 'Name and repeat are required' });
+  }
+  // Update the habit in the database
+  db.query(
+      'UPDATE habits SET name = ?, `repeat` = ? WHERE idHabits = ?',
+      [name, repeat, habitId],
+      (err, result) => {
+          if (err) {
+              console.error('Error updating habit:', err);
+              return res.status(500).json({ success: false, message: 'Failed to update habit', error: err });
+          }
+          console.log("Habit updated successfully");
+          return res.status(200).json({ success: true, message: 'Habit updated successfully' });
+      }
+  );
+});
+
+
+app.get('/habitsGet', (req, res) => {
+  const idUsers = req.query.idUsers;
+  db.query(
+    "SELECT * FROM habits WHERE idUsers = ?",
+    [idUsers],
     (err, result) => {
       if (err) {
-        console.log(err);
+        res.send({err: err});
+      } 
+      
+      if (result.length > 0){
+          res.json(result);
       } else {
-        console.log("Values Inserted");
-        res.send("Values Inserted");
+          res.send({message: "Error receiving habits"});
       }
+      
     }
-  );
-  app.post('/habits', (req, res) => {
-    //const { idUsers, name } = req.body;
-    const idUsers = req.body.idUsers;
-    const name = req.body.name;
-    console.log(idUsers + "hello");
-    db.query('INSERT INTO habits (idUsers, name) VALUES (?, ?)', [idUsers, name], (err, result) => {
-        if (err) {
-            console.error('Error inserting habit:', err);
-            res.status(500).json({ error: 'Failed to create habit' });
-        } else {
-            res.status(201).json({ message: 'Habit created successfully' });
-        }
-    });
-  });
-})
-
+  );   
+  
+});
