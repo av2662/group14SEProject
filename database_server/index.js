@@ -36,15 +36,61 @@ const db = mysql.createConnection({
 /*------------
 Registers new accounts to the database
 --------------*/
+/*------------
+Registers new accounts to the database
+--------------*/
 app.post('/register', async (req, res) => {
   const firstName = req.body.firstName;
   const lastName = req.body.lastName;
   const email = req.body.email;
   const username = req.body.username;
   const password = req.body.password;
+  const isAdmin = req.body.isAdmin;
 
-  // Check if the email is already taken
-  db.query(
+
+  //if user checked off the admin button
+  if (isAdmin) {
+    // Check if the email is in the admin table
+    db.query(
+      "SELECT * FROM admin WHERE email = ?",
+      [email],
+      async (err, adminResult) => {
+        if (err) {
+          console.log(err);
+          return res.status(500).json({ error: "Internal Server Error" });
+        }
+
+        if (adminResult.length > 0) {
+          //email is a verified admin email
+          //check if email is already in use
+          db.query( 
+            "SELECT * FROM users WHERE email = ?",
+            [email],
+            async (err, result) => {
+              if (err) {
+                console.log(err);
+                res.status(500).json({ error: "Internal Server Error" });
+                return;
+              }
+              if (result.length > 0) {
+                // Email already in use
+                res.status(400).json({ error: "Email is already in use." });
+              }
+              else {
+               // Proceed with user registration
+               await registerUser(); 
+              }
+          });
+        } else {
+          return res.status(600).json({ error: "Email is not a verified admin email." });
+        }
+      }
+    );
+  } 
+  else {
+  // user did not check off isAdmin
+  //check if email is in user
+  db.query( 
     "SELECT * FROM users WHERE email = ?",
     [email],
     async (err, result) => {
@@ -56,30 +102,36 @@ app.post('/register', async (req, res) => {
 
       if (result.length > 0) {
         // Email already exists
-        res.status(400).json({ error: "Email already taken" });
-      } else {
-        // Email is available, proceed with registration
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(password, salt);
-        const date_registered = new Date();
-
-        db.query(
-          "INSERT INTO users (firstName, lastName, email, username, password, date_registered) VALUES (?,?,?,?,?, ?)",
-          [firstName, lastName, email, username, hashedPassword, date_registered],
-          (err, result) => {
-            if (err) {
-              console.log(err);
-              res.status(500).json({ error: "Internal Server Error" });
-            } else {
-              console.log("Values Inserted");
-              res.send("Values Inserted");
-            }
-          }
-        );
+        res.status(400).json({ error: "Email is already in use." });
       }
-    }
-  );
+      else {
+       // Proceed with user registration
+       await registerUser(); 
+      }
+  });
+}
+  async function registerUser() {
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+    const date_registered = new Date();
+
+    db.query(
+      "INSERT INTO users (firstName, lastName, email, username, password, date_registered, isAdmin) VALUES (?,?,?,?,?,?,?)",
+      [firstName, lastName, email, username, hashedPassword, date_registered, isAdmin],
+      (err, result) => {
+        if (err) {
+          console.log(err);
+          return res.status(500).json({ error: "Internal Server Error" });
+        } else {
+          console.log("Values Inserted");
+          return res.send("Values Inserted");
+        }
+      }
+    );
+  }
 });
+
+
 
 
 
