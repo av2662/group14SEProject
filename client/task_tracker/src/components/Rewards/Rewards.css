@@ -1,116 +1,60 @@
-/* General page styles */
 .RewardsContainer {
-    font-family: Arial, sans-serif;
-    margin: 20px;
-    padding: 20px;
-    background-color: #f4f4f4;
-    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    margin-right: 45px;
+}
+
+.RewardsHeader h1 {
+    display: inline-block;
+    margin-right: 55px;
 }
 
 .RewardsHeader {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 45px;
+    margin-top: 45px;
+    flex-direction: row;
 }
 
 .TitleSection {
-    font-size: 24px;
-    color: #333;
+    color: #6D2E46;
+    text-transform: uppercase;
+    font-size: 30px;
 }
 
-.AddRewardButton button {
-    padding: 10px 20px;
-    background-color: #007BFF;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
+.AddRewardButton {
+    margin-top: 20px;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
 }
 
-.AddRewardButton button:hover {
-    background-color: #0056b3;
-}
-
-/* Styles for each reward row */
 .RewardRow {
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding: 10px;
-    margin-top: 10px;
-    background-color: white;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    margin-bottom: 45px;
 }
 
-.Name, .Points {
-    font-size: 18px;
+.Name {
+    text-transform: uppercase;
 }
 
 .Action {
     display: flex;
-    gap: 10px;
+    align-items: center;
 }
 
-/* Icons style */
-.FaPencilAlt, .FaRegTrashAlt {
-    color: #666;
-    cursor: pointer;
-}
-
-.FaPencilAlt:hover, .FaRegTrashAlt:hover {
-    color: #333;
-}
-
-/* Popup styles */
 .popupRewards {
     position: fixed;
-    top: 20%;
+    top: 50%;
     left: 50%;
-    transform: translateX(-50%);
-    width: 300px;
-    background-color: white;
+    transform: translate(-50%, -50%);
+    background-color: #D5B9B2;
+    width: 800px;
+    height: 450px;
     padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    z-index: 1000;
-}
-
-.popupHeader {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-.popupContent {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.popupContent label {
-    font-size: 16px;
-    color: #333;
-}
-
-.popupContent input {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-.popupContent button {
-    padding: 10px 20px;
-    background-color: #28a745;
-    color: white;
-    border: none;
     border-radius: 5px;
-    cursor: pointer;
-}
-
-.popupContent button:hover {
-    background-color: #218838;
+    border: 5px solid #ECE2D0;
+    z-index: 1000;
 }

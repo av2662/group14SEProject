@@ -1,77 +1,102 @@
-import React, { useState, useEffect } from "react";
-import Axios from 'axios';
-import './Rewards.css'; // Assuming similar CSS rules can be applied, you might need to create this
-import { FaRegTrashAlt, FaPencilAlt } from 'react-icons/fa';
-import { Button } from '../Button'; // Reuse the Button component
-import '../../components/Button.css'; // Reusing existing button styles
+import React, { useState } from "react";
+import './Rewards.css';
+import { Button } from '../Button';
+import '../../components/Button.css';
 
 const Rewards = () => {
-    const [allRewards, setAllRewards] = useState([]);
+    const [allRewards, setAllRewards] = useState([
+        { id: 0, name: "Free Coffee", points: 100 },
+        { id: 1, name: "Extra Day Off", points: 500 },
+        { id: 2, name: "Movie Tickets", points: 200 },
+        { id: 3, name: "Gift Card", points: 300 }
+    ]);
     const [showRewardsPopup, setShowRewardsPopup] = useState(false);
-    const [selectedReward, setSelectedReward] = useState('');
+    const [selectedReward, setSelectedReward] = useState(null);
+    const [rewardName, setRewardName] = useState('');
     const [pointsNeeded, setPointsNeeded] = useState('');
 
-    useEffect(() => {
-        fetchRewards();
-    }, []);
-
-    const fetchRewards = async () => {
-        const response = await Axios.get('http://localhost:3001/rewards');
-        if (response.data) {
-            setAllRewards(response.data);
-        }
-    };
-
-    const handleAddReward = () => {
+    const handleAddRewardClick = () => {
+        setSelectedReward(null);
+        setRewardName('');
+        setPointsNeeded('');
         setShowRewardsPopup(true);
     };
 
-    const handleSaveReward = async () => {
-        // Placeholder for POST or PUT logic
+    const handleEditRewardClick = (reward) => {
+        setSelectedReward(reward);
+        setRewardName(reward.name);
+        setPointsNeeded(reward.points);
+        setShowRewardsPopup(true);
+    };
+
+    const handleClosePopup = () => {
         setShowRewardsPopup(false);
     };
 
-    const handleDeleteReward = async (rewardId) => {
-        // Placeholder for DELETE logic
-        fetchRewards();
+    const handleSaveReward = () => {
+        if (selectedReward) {
+            const updatedRewards = allRewards.map(reward =>
+                reward.id === selectedReward.id ? { ...reward, name: rewardName, points: pointsNeeded } : reward
+            );
+            setAllRewards(updatedRewards);
+        } else {
+            const newReward = {
+                id: allRewards.length,
+                name: rewardName,
+                points: pointsNeeded
+            };
+            setAllRewards([...allRewards, newReward]);
+        }
+        setShowRewardsPopup(false);
+    };
+
+    const handleDeleteReward = (rewardId) => {
+        const updatedRewards = allRewards.filter(reward => reward.id !== rewardId);
+        setAllRewards(updatedRewards);
     };
 
     return (
         <div className='RewardsContainer'>
             <div className='RewardsHeader'>
                 <h1 className='TitleSection'>Rewards</h1>
-                <div className="AddRewardButton">
-                    <Button onClick={handleAddReward}>Add Reward</Button>
-                </div>
+                <Button buttonSize='btn--small' buttonColor='maroon' onClick={handleAddRewardClick}>Add Reward</Button>
             </div>
             {allRewards.map((reward, index) => (
-                <div className='RewardRow' key={index}>
-                    <div className='Name'>{reward.name}</div>
-                    <div className='Points'>{reward.points} Points</div>
+                <div className='RewardRow' key={`reward-number-${index}`}>
+                    <div className='Name'>{reward.name} - {reward.points} Points</div>
                     <div className='Action'>
-                        <FaPencilAlt onClick={() => { /* Set edit state */ }} />
-                        <FaRegTrashAlt onClick={() => handleDeleteReward(reward.id)} />
+                        <Button onClick={() => handleEditRewardClick(reward)}>Edit</Button>
+                        <Button onClick={() => handleDeleteReward(reward.id)}>Delete</Button>
                     </div>
                 </div>
             ))}
-            {/* Popup for creating/editing a reward */}
             {showRewardsPopup && (
                 <div className="popupRewards">
                     <div className="popupHeader">
                         <h2>{selectedReward ? "Edit Reward" : "New Reward"}</h2>
-                        <Button onClick={() => setShowRewardsPopup(false)}>Close</Button>
+                        <Button buttonSize='btn--small' buttonColor='maroon' onClick={handleClosePopup}>Close</Button>
                     </div>
                     <div className="popupContent">
                         <label>Reward Name:</label>
-                        <input type="text" value={selectedReward} onChange={e => setSelectedReward(e.target.value)} />
+                        <input
+                            type="text"
+                            className="form-control"
+                            value={rewardName}
+                            onChange={(e) => setRewardName(e.target.value)}
+                        />
                         <label>Points Needed:</label>
-                        <input type="number" value={pointsNeeded} onChange={e => setPointsNeeded(e.target.value)} />
-                        <Button onClick={handleSaveReward}>Save Reward</Button>
+                        <input
+                            type="number"
+                            className="form-control"
+                            value={pointsNeeded}
+                            onChange={(e) => setPointsNeeded(e.target.value)}
+                        />
+                        <Button buttonSize='btn--small' buttonColor='maroon' onClick={handleSaveReward}>Save Reward</Button>
                     </div>
                 </div>
             )}
         </div>
     );
-};
+}
 
 export default Rewards;
