@@ -58,34 +58,35 @@ const MyHabitsDesktop = () => {
                         {habits.filter(habit => habit.repeat === "weekly").map((habit, habitIndex) => (
                             <Button key={habitIndex} buttonSize='btn--goal' buttonColor='green'>
                                 <h3>{habit.name}</h3>
-                                <div>
+                                <div className="daysContainer">
                                     {days.map((day, index) => (
-                                        <p key={index} className='daysGoals'>{day}</p>
-                                    ))}
-                                    {days.map((day, index) => (
-                                        clickedDays[habitIndex]?.includes(index) ? (
-                                            <FaCircle key={index} className="circleGoals" onClick={() => {
-                                                setClickedDays(prevState => {
-                                                    const newState = [...prevState];
-                                                    newState[habitIndex] = newState[habitIndex].filter(i => i !== index);
-                                                    return newState;
-                                                });
-                                            }} />
-                                        ) : (
-                                            <FaRegCircle key={index} className="circleGoals" onClick={() => {
-                                                setClickedDays(prevState => {
-                                                    const newState = [...prevState];
-                                                    if (!newState[habitIndex]) {
-                                                    newState[habitIndex] = [index];
-                                                    } else {
-                                                        newState[habitIndex].push(index);
-                                                    }
-                                                    return newState;
-                                                });
-                                            }} />
-                                        )
+                                        <div key={index} className='dayContainer'>
+                                            <p className='daysGoals'>{day}</p>
+                                            {clickedDays[habitIndex]?.includes(index) ? (
+                                                <FaCircle key={index} className="circleGoals" onClick={() => {
+                                                    setClickedDays(prevState => {
+                                                        const newState = [...prevState];
+                                                        newState[habitIndex] = newState[habitIndex].filter(i => i !== index);
+                                                        return newState;
+                                                    });
+                                                }} />
+                                            ) : (
+                                                <FaRegCircle key={index} className="circleGoals" onClick={() => {
+                                                    setClickedDays(prevState => {
+                                                        const newState = [...prevState];
+                                                        if (!newState[habitIndex]) {
+                                                            newState[habitIndex] = [index];
+                                                        } else {
+                                                            newState[habitIndex].push(index);
+                                                        }
+                                                        return newState;
+                                                    });
+                                                }} />
+                                            )}
+                                        </div>
                                     ))}
                                 </div>
+
                             </Button>
                         ))}
                     </div>

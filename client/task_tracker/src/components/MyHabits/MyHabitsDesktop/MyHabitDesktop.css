@@ -80,3 +80,18 @@
     margin-right: 43px;
     margin-top: 5px;
 }
+
+.daysContainer {
+    display: flex;
+    justify-content: space-between; /* Adjust as needed */
+}
+
+.dayContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.circleGoals {
+    margin-top: 5px; /* Adjust as needed */
+}
