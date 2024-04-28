@@ -76,6 +76,13 @@ function Navbar() {
                                 </Link>
                             </li>
                         )}
+                        {isLoggedIn && (
+                            <li className='nav-item'>
+                                <Link to="/Account" className='nav-links' onClick={closeMobileMenu}>
+                                    Account
+                                </Link>
+                            </li>
+                        )}
                         {isLoggedIn === null && 
                              <li className='nav-item'>
                              <Link to="/login" className='nav-links'>
@@ -124,5 +131,4 @@ function Navbar() {
 }
 
 export default Navbar
-
 

@@ -26,6 +26,11 @@ const Goals = () => {
             const response = await Axios.get('http://localhost:3001/habitsGet', {
                 params: { idUsers: idUsers },
               })
+              //if user does not have any habits
+              if (response.data && response.data.message === "Error receiving habits") {
+                setAllGoals([]);
+                return;
+              }
             setAllGoals(response.data);
         } catch (error) {
             console.error('Error fetching habits:', error);

@@ -1,0 +1,66 @@
+.backgroundAccount{
+    background-color: white;
+    display: flex;
+    height: 750px;
+    margin-right: -15px;
+    margin-bottom: -15px;
+    margin-left: -15px;
+    flex-wrap: wrap;
+    align-content: stretch;
+   
+}
+
+.containerAccount{
+    
+    display:flex;
+    flex-direction:column;
+    margin: 100px auto;
+    background: white;
+    width: 900px;
+    padding-bottom:30px;
+    
+
+}
+
+.greeting{
+    text-align: center;
+    font-size: 50px;
+    margin-bottom: 30px;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.resetQuestion{
+    font-size: 20px;
+    text-align: center;
+    margin-bottom: 30px;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.password-input{
+    text-align: center;
+}
+.password-input label{
+    margin-right: 10px;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.password-input input{
+    margin-right: 10px;
+}
+
+.accountPassword{
+   margin-left: 40%;
+   background-color: #A26769;
+   height: 40px;
+   width: 200px;
+   font-size: larger;
+   border-radius: 5px;
+   color: white;
+   border-color: #A26769;
+}
+
+.error-message{
+    margin-top: 25px;
+    text-align: center;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}

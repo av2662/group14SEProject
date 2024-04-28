@@ -5,8 +5,10 @@ const mysql = require('mysql');
 const cors = require('cors');
 const nodemailer = require('nodemailer');
 
-
-
+/*-------------------------------------
+Sets up connection to the email account
+that will send codes to users.
+--------------------------------------*/
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   secure: true,
@@ -24,6 +26,9 @@ app.use(express.json());
 const router = express.Router();
 
 
+/*----------------------------------------
+Creates connections to our mysql database.
+-----------------------------------------*/
 const db = mysql.createConnection({
     host: 'database-1.cj4iawuucsa5.us-east-1.rds.amazonaws.com',
     port: '3306',
@@ -33,12 +38,10 @@ const db = mysql.createConnection({
 });
 
 
-/*------------
+
+/*-------------------------------------
 Registers new accounts to the database
---------------*/
-/*------------
-Registers new accounts to the database
---------------*/
+--------------------------------------*/
 app.post('/register', async (req, res) => {
   const firstName = req.body.firstName;
   const lastName = req.body.lastName;
@@ -89,7 +92,7 @@ app.post('/register', async (req, res) => {
   } 
   else {
   // user did not check off isAdmin
-  //check if email is in user
+  //check if email is in use
   db.query( 
     "SELECT * FROM users WHERE email = ?",
     [email],
@@ -111,6 +114,7 @@ app.post('/register', async (req, res) => {
   });
 }
   async function registerUser() {
+    //Hash and Salt passwords before entering database
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
     const date_registered = new Date();
@@ -123,7 +127,6 @@ app.post('/register', async (req, res) => {
           console.log(err);
           return res.status(500).json({ error: "Internal Server Error" });
         } else {
-          console.log("Values Inserted");
           return res.send("Values Inserted");
         }
       }
@@ -135,7 +138,7 @@ app.post('/register', async (req, res) => {
 
 
 
-/*------------
+/*--------------
 Verifies login
 --------------*/
 app.post('/login', (req, res) => {
@@ -154,9 +157,7 @@ app.post('/login', (req, res) => {
 
           const hashedPassword = result[0].password;
           const isValid = await bcrypt.compare(userPassword, hashedPassword);
-          console.log(hashedPassword);
-          console.log(userPassword);
-          console.log(isValid);
+          
           if(!isValid){
             res.send({message: "Incorrect email or password"});
           }
@@ -171,10 +172,10 @@ app.post('/login', (req, res) => {
   );  
 })
 
-/*------------
+/*----------------------------------------
 Feteches the events from the database that
 corresponds to the logged in user
---------------*/
+-----------------------------------------*/
 app.get('/eventsGet', (req, res) => {
   const idUsers = req.query.idUsers;
   db.query(
@@ -196,36 +197,31 @@ app.get('/eventsGet', (req, res) => {
   
 });
 
-/*------------
+/*---------------------------------------------
 This is only available to admin type users.
-Recieves a count of users that have registered in the 
-past 2 weeks.
---------------*/
+Recieves a count of users that have registered 
+since the start date the admin entered.
+----------------------------------------------*/
 app.get('/adminInfo', (req, res) => {
-  const twoWeeksAgo = new Date();
-  twoWeeksAgo.setDate(twoWeeksAgo.getDate() - 14);
+  
+  const startDate = req.query.startDate; 
 
-  //console.log('Two weeks ago:', twoWeeksAgo);
-
-db.query(
-  "SELECT COUNT(*) AS userCount FROM users WHERE date_registered >= ?", [twoWeeksAgo], (err, result) => {
-    if (err) {
-      // If there's an error, send an error response
-      res.status(500).json({ error: err.message });
-    } else {
-      // If successful, send the count of users as JSON
-      res.json({ userCount: result[0].userCount });
+  db.query(
+    "SELECT COUNT(*) AS userCount FROM users WHERE date_registered >= ?", [startDate], (err, result) => {
+      if (err) {
+        // If there's an error, send an error response
+        res.status(500).json({ error: err.message });
+      } else {
+        // If successful, send the count of users as JSON
+        res.json({ userCount: result[0].userCount });
+      }
     }
-  }
-
-);
-
-
+  );
 })
 
-/*------------
+/*--------------------------------------
 New events are stored into the database.
---------------*/
+---------------------------------------*/
 app.post('/events', (req, res) => {
 
   const title = req.body.title;
@@ -248,10 +244,10 @@ app.post('/events', (req, res) => {
   );  
 })
 
-/*------------
+/*------------------------------------------------------------
 Sends a passcode to the user who has forgotten their password.
 The 4 digit passcode is stored in the database.
---------------*/
+-------------------------------------------------------------*/
 app.post('/sendpasscode', (req, res) => {
   
   const { email } = req.body;
@@ -288,7 +284,7 @@ app.post('/sendpasscode', (req, res) => {
 });
 
 
-/*-----------------------------------
+/*-------------------------------------
 Verifies that the user has entered the 
 correct passcode they recieved.
 -------------------------------------*/
@@ -315,8 +311,9 @@ app.post('/verifypasscode', (req, res) => {
 
 
 /*------------------------------------------------
-Resets password for the user. Password is properly 
-hashed and salted before entering database.
+Resets password for the user who forgot password. 
+Password is properly hashed and salted before 
+entering database.
 -------------------------------------------------*/
 app.post('/resetpassword', async(req, res) => {
   const { email, newPassword } = req.body;
@@ -343,20 +340,35 @@ app.post('/resetpassword', async(req, res) => {
 });
 
 
-db.connect((err) => {
-    if(err){
-        console.log(err.message);
-        return;
-    }
-    console.log("Database connected");
+/*------------------------------------------------
+Resets password for the user who was able to log in
+but wishes to change their password. 
+Password is properly hashed and salted before 
+entering database.
+-------------------------------------------------*/
+app.post('/resetAccountPassword', async(req, res) => {
+  const { idUsers, newPassword } = req.body;
+  //hash and salt new password
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassowrd = await bcrypt.hash(newPassword, salt);  
+  // Update the user's password in the database with the new password
+  db.query('UPDATE users SET password = ? WHERE idUsers = ?', [hashedPassowrd, idUsers], (error, results) => {
+      if (error) {
+          console.error('Error resetting password:', error);
+          res.status(500).json({ success: false, message: 'Failed to reset password' });
+      } else {
+          // Check if the user exists and the password was updated successfully
+          if (results.affectedRows > 0) {
+              // Return success response to client
+              res.status(200).json({ success: true });
+          } else {
+              // Return failure response to client
 
+              res.status(404).json({ success: false, message: 'User not found' });
+          }
+      }
+  });
 });
-
-app.listen(3001, () => {
-    console.log("Yey, your server is running on port 3001");
-});
-
-
 // Add endpoint to handle adding a habit
 app.post('/habits', (req, res) => {
   const { name, repeat, idUsers } = req.body; // Ensure idUsers is included
@@ -453,4 +465,21 @@ app.get('/habitsGet', (req, res) => {
     }
   });
   
+});
+
+
+/*-----------------------------
+Set up the database connection
+------------------------------*/
+db.connect((err) => {
+  if(err){
+      console.log(err.message);
+      return;
+  }
+  console.log("Database connected");
+
+});
+
+app.listen(3001, () => {
+  console.log("Yay, your server is running on port 3001");
 });
