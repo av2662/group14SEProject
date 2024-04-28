@@ -1,0 +1,116 @@
+/* General page styles */
+.RewardsContainer {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    padding: 20px;
+    background-color: #f4f4f4;
+    border-radius: 8px;
+}
+
+.RewardsHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.TitleSection {
+    font-size: 24px;
+    color: #333;
+}
+
+.AddRewardButton button {
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.AddRewardButton button:hover {
+    background-color: #0056b3;
+}
+
+/* Styles for each reward row */
+.RewardRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    margin-top: 10px;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.Name, .Points {
+    font-size: 18px;
+}
+
+.Action {
+    display: flex;
+    gap: 10px;
+}
+
+/* Icons style */
+.FaPencilAlt, .FaRegTrashAlt {
+    color: #666;
+    cursor: pointer;
+}
+
+.FaPencilAlt:hover, .FaRegTrashAlt:hover {
+    color: #333;
+}
+
+/* Popup styles */
+.popupRewards {
+    position: fixed;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 300px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    z-index: 1000;
+}
+
+.popupHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.popupContent {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.popupContent label {
+    font-size: 16px;
+    color: #333;
+}
+
+.popupContent input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.popupContent button {
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.popupContent button:hover {
+    background-color: #218838;
+}

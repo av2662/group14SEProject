@@ -440,5 +440,17 @@ app.get('/habitsGet', (req, res) => {
       
     }
   );   
+
+  app.post('/log-completion', async (req, res) => {
+    const { userId, habitId } = req.body;
+    const date = new Date(); 
+  
+    try {
+      await db.query('INSERT INTO habit_completions (idHabits, completionDate, completed) VALUES (?, ?, TRUE)', [habitId, date]);
+      res.send({ success: true, message: 'Habit completion logged successfully.' });
+    } catch (error) {
+      res.status(500).send({ success: false, message: 'Error logging habit completion.', error: error.message });
+    }
+  });
   
 });

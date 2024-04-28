@@ -68,8 +68,14 @@ function Navbar() {
                                  Habits
                              </Link>
                          </li>
-                        }
-                       
+                        }                
+                        {isLoggedIn && (
+                            <li className='nav-item'>
+                                <Link to="/Rewards" className='nav-links' onClick={closeMobileMenu}>
+                                    Rewards
+                                </Link>
+                            </li>
+                        )}
                         {isLoggedIn === null && 
                              <li className='nav-item'>
                              <Link to="/login" className='nav-links'>

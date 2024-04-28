@@ -9,6 +9,7 @@ import Register from './components/pages/CreateAccountPage/CreateAccount';
 import Calendar1 from './components/pages/CalendarPage/Calendar';
 import MyHabits from './components/MyHabits';
 import AdminView from './components/pages/AdminPage/AdminView';
+import Rewards from './components/Rewards'; 
 
 function App() {
   
@@ -26,6 +27,7 @@ function App() {
         <Route path="/sign-up" element={ <Register/> }></Route> 
         <Route path="/MyHabits" element={<PrivateRoute><MyHabits/></PrivateRoute>}></Route>
         <Route path="/Calendar" element={<PrivateRoute><Calendar1/></PrivateRoute>}></Route>
+        <Route path="/Rewards" element={<PrivateRoute><Rewards/></PrivateRoute>}></Route>
         <Route path="/AdminPage" element={<PrivateAdminRoute><AdminView/></PrivateAdminRoute>}></Route>
       </Routes>
       <Footer/>
