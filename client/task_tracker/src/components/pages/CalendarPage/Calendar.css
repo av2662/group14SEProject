@@ -1,3 +1,49 @@
+/* default theme  */
+.pink-theme .rbc-header {
+  color: white;
+  background-color: #6d2e46; /* Shade of pink */
+}
+.pink-theme .rbc-toolbar-label {
+  color: #6d2e46;
+}
+.pink-theme .popupCalendar,
+.pink-theme .popup-contentCalendar {
+  background-color: #CEBEBE;
+}
+
+.pink-theme .legend{
+  background-color: #ece2D0;
+  border-color: #6d2e46;
+}
+
+
+/* Neutral Theme */
+.neutral-theme .rbc-header {
+  color: white;
+  background-color: #ccc; /* Neutral colors such as gray and white with brown */
+}
+.neutral-theme .rbc-toolbar-label {
+  color: #6d2e46;
+}
+.neutral-theme .popupCalendar,
+.neutral-theme .popup-contentCalendar {
+  background-color: #ece2d0;
+}
+
+/* Blue Theme */
+.blue-theme .rbc-header {
+  color: white;
+  background-color: #a6c9e2; /* Shades of blue */
+}
+.blue-theme .rbc-toolbar-label {
+  color: #6d2e46;
+}
+.blue-theme .popupCalendar,
+.blue-theme .popup-contentCalendar {
+  background-color: #a6c9e2;
+}
+
+
 .rbc-header{
     color: white;
     background-color:#CEBEBE;

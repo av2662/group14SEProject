@@ -23,6 +23,8 @@ const Calendar1 = () => {
   const [eventEnd, setEventEnd] = useState(null);
   const [eventPriority, setEventPriority] = useState(''); 
 
+  const [theme, setTheme] = useState('neutral-theme'); //theme state test rn 
+
   useEffect(() => {
     Axios.get('http://localhost:3001/eventsGet', {
       params: { idUsers: idUsers },
@@ -137,8 +139,16 @@ const Calendar1 = () => {
     };
   };
 
+  const changeTheme = (selectedTheme) => {
+    console.log("Changing theme to:", selectedTheme);
+    setTheme(selectedTheme);
+    console.log("New theme:", selectedTheme);
+    document.documentElement.className = selectedTheme;
+  };
+   // to change theme 
+
   return (
-    <div className="App">
+    <div className={`App ${theme}`}>  {/* theme test rn change back to original "App" */}
       <div style={{ height: '600px' }}>
         <Calendar
           localizer={localizer}
@@ -246,7 +256,13 @@ const Calendar1 = () => {
           <span style={{ color:'white', backgroundColor: '#cebebe', padding: '2px 5px', borderRadius: '3px', marginRight: '5px' }}>Low</span>
         </div>
       </div>
-   
+
+        {/* Theme selection buttions */}
+      <div className="theme-selection">
+        <button onClick={() => changeTheme('pink-theme')}>Pink Theme</button>
+        <button onClick={() => changeTheme('neutral-theme')}>Neutral Theme</button>
+        <button onClick={() => changeTheme('blue-theme')}>Blue Theme</button>
+      </div>
     </div>
   );
 };
