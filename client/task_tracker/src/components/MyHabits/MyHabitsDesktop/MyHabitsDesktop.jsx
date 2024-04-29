@@ -1,3 +1,10 @@
+/*
+It works in conjuction with goals.jsx 
+to set the logic for our habits page.
+Habits are stored to the database. But some features that
+appear on the screen such as logging habits, is not currently functional.
+
+*/
 import React, { useState, useEffect } from 'react';
 import './MyHabitDesktop.css';
 import '../../Button.css';

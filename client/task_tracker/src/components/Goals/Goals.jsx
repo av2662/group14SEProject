@@ -1,3 +1,10 @@
+/*
+It works in conjuction with goals.jsx 
+to set the logic for our habits page.
+Habits are stored to the database. But some features that
+appear on the screen such as logging habits, is not currently functional.
+*/
+
 import React, { useState, useEffect } from "react";
 import Axios from 'axios';
 import './Goals.css';
@@ -8,7 +15,7 @@ import '../../components/Button.css'
 
 const Goals = () => {
     const user = JSON.parse(window.localStorage.getItem("user")); // Parse user object and retrieve from local storage// this no longer works- anna
-    const idUsers = window.localStorage.getItem("user"); //this gets the userId - anna
+    const idUsers = window.localStorage.getItem("user"); //this gets the userId 
    
     const [AllGoals, setAllGoals] = useState([]);
     const [showHabitsPopup, setShowHabitsPopup] = useState(false);

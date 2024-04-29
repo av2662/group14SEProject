@@ -1,3 +1,7 @@
+/*------------------------
+This file contains all the information
+in our homepage.
+--------------------------*/
 export const homeObjOne = {
     lightBg: true,
     lightText: false,

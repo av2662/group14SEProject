@@ -15,19 +15,37 @@
   background-color: #ece2D0;
   border-color: #6d2e46;
 }
+.pink-theme .rbc-day-bg:hover{
+  background-color: #CEBEBE;
+}
 
-
+.pink-theme .rbc-btn-group button{
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color:#6d2e46
+}
 /* Neutral Theme */
 .neutral-theme .rbc-header {
   color: white;
   background-color: #ccc; /* Neutral colors such as gray and white with brown */
 }
 .neutral-theme .rbc-toolbar-label {
-  color: #6d2e46;
+  color: black;
+}
+.neutral-theme .rbc-btn-group button{
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: black;
 }
 .neutral-theme .popupCalendar,
 .neutral-theme .popup-contentCalendar {
   background-color: #ece2d0;
+}
+.neutral-theme .rbc-day-bg:hover{
+  background-color: #ece2d0;
+}
+
+.neutral-theme .legend{
+  background-color: #ccc;
+  border-color: #6d2e46;
 }
 
 /* Blue Theme */
@@ -36,13 +54,23 @@
   background-color: #a6c9e2; /* Shades of blue */
 }
 .blue-theme .rbc-toolbar-label {
-  color: #6d2e46;
+  color: #a6c9e2; 
+}
+.blue-theme .rbc-btn-group button{
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #a6c9e2; 
+}
+.blue-theme .rbc-day-bg:hover{
+  background-color: #a6c9e2;
 }
 .blue-theme .popupCalendar,
 .blue-theme .popup-contentCalendar {
   background-color: #a6c9e2;
 }
-
+.blue-theme .legend{
+  background-color: #a6c9e2;
+  border-color: #6d2e46;
+}
 
 .rbc-header{
     color: white;

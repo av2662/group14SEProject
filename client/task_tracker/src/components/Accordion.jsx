@@ -1,3 +1,7 @@
+/*----------------------------------------------
+This appears at the bottom of our homep component.
+It is meant for the "Frequently Asked Questions"
+-----------------------------------------------*/
 import React from 'react'
 import { useState } from 'react'
 import './Accordion.css'

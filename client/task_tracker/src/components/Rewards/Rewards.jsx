@@ -1,3 +1,8 @@
+/*----------------------------
+This file is for our rewards page logic. 
+Everything that appears on the screen is 
+currently hardcoded.
+-----------------------------*/
 import React, { useState } from "react";
 import './Rewards.css';
 import { Button } from '../Button';

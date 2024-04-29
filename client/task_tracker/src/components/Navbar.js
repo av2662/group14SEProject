@@ -1,3 +1,9 @@
+/*----------------------------------------------------
+This file exports the navbar component.
+Users will only see the links that are 
+avaiable to them. For example admin type users
+are the only ones who see the Admin link in the nav bar.
+-------------------------------------------------------*/
 import React, { useState, useEffect } from 'react'
 import { Link, Route, Routes } from 'react-router-dom';
 import { BsCalendarWeek } from "react-icons/bs";

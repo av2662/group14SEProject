@@ -1,3 +1,8 @@
+/*-------------------
+This file contains the logic for the 
+user to change their password. It must pass the 
+regex test.
+--------------------*/
 import React, { useState } from 'react';
 import './AccountView.css';
 import Axios from 'axios'; // Import Axios for making HTTP requests
@@ -9,7 +14,7 @@ function AccountView() {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [resetError, setResetError] = useState(null);
     const idUsers = window.localStorage.getItem("user");
-    const username = window.localStorage.getItem("username");
+    const username = window.localStorage.getItem("username"); //stored to show the username in the greeting
 
     const handleResetPassword = async () => {
 

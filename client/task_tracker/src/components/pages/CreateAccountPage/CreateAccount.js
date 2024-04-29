@@ -1,5 +1,13 @@
-import './CreateAccount.css'
+/*---------------------------------------------------------------
+This lovely long file handles user registration.
+I should have separated some of the logic here onto a different file
+to ensure that this component files looked less congested. - Anna
 
+The registration runs regex tests for all inputs to ensure the data
+entered is valid. Each input also contains a hint for valid input.
+A user may register as an admin or regular non admin user.
+---------------------------------------------------------------*/
+import './CreateAccount.css'
 import { useRef, useState, useEffect } from "react";
 import { faCheck, faTimes, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

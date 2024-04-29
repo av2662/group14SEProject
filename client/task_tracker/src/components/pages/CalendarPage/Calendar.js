@@ -1,3 +1,9 @@
+/*
+This file contains all the logic for our calendar page.
+The component is rendered everytime the user enters a new event.
+The logic for deleting and editing tasks is not finished.
+
+*/
 import React, { useState, useEffect } from "react";
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
@@ -12,7 +18,11 @@ const localizer = momentLocalizer(moment);
 const Calendar1 = () => {
 
 
+/*-----------------
+Gather the user id for the user that is currently logged in.
+Fetch only the events that apply to that user.
 
+------------------*/
   const idUsers = window.localStorage.getItem("user");
 
   const [calEvents, setCalEvents] = useState([]);
@@ -36,7 +46,7 @@ const Calendar1 = () => {
         return;
       }
       for (let i = 0; i < appointments.length; i++) {
-        appointments[i].start = convertDate(appointments[i].start);
+        appointments[i].start = convertDate(appointments[i].start); //convert the dates to fit the calendar 
         appointments[i].end = convertDate(appointments[i].end);
       }
       setCalEvents(appointments);
@@ -46,6 +56,10 @@ const Calendar1 = () => {
     });
   }, [idUsers]);
 
+  /*------------------
+  helper function for storing 
+the events properly.  
+  -------------------*/
   const convertDate = (date) => {
     return moment.utc(date).toDate();
   };
@@ -68,6 +82,9 @@ const Calendar1 = () => {
     setEventPriority(event.priority);
   };
 
+  /*----------------
+  Store the user event to the databae.
+  -----------------*/
   const saveEvent = async () => {
 
     if (eventTitle && eventStart && eventEnd && eventPriority) {
@@ -78,7 +95,6 @@ const Calendar1 = () => {
       console.log('Invalid priority');
       return;
       }
-      
       
       try {
         const response = await Axios.post('http://localhost:3001/events', {
@@ -108,6 +124,10 @@ const Calendar1 = () => {
     }
   };
 
+  /*---------------------------------
+  Is not connected to the database so 
+  deleting does not work properly.
+  ---------------------------------*/
   const deleteEvent = () => {
     if (selectEvent) {
       const updatedEvents = calEvents.filter((event) => event !== selectEvent);
@@ -139,6 +159,10 @@ const Calendar1 = () => {
     };
   };
 
+  /*----------------------
+  Change the theme of the calendar 
+  based off which button the user selects.
+  -----------------------*/
   const changeTheme = (selectedTheme) => {
     console.log("Changing theme to:", selectedTheme);
     setTheme(selectedTheme);
@@ -189,7 +213,7 @@ const Calendar1 = () => {
                 />
               </div>
               <div className="popup-contentCalendarEventTimeRow">
-                <label>Date Start</label>
+                <label>Date Start:</label>
                 <input
                   type="datetime-local"
                   min="2024-04-01T00:00"
@@ -199,7 +223,7 @@ const Calendar1 = () => {
                   value={eventStart}
                   onChange={(e) => setEventStart(e.target.value)}
                 />
-                <label>Date End</label>
+                <label>Date End:</label>
                 <input
                   type="datetime-local"
                   min="2024-04-01T00:00"
@@ -211,7 +235,7 @@ const Calendar1 = () => {
                 />
               </div>
               <div className="popup-contentCalendarEventPriorityRow">
-              <label>Priority</label>
+              <label>Priority:</label>
                 <input
                   type="text"
                   className="form-control"
@@ -243,7 +267,7 @@ const Calendar1 = () => {
           </div>
         )}
       </div>
-
+      {/* The legend to label the priorities for the user */}
       <div className="legend">
         <h3 style={{marginLeft: '40px', marginBottom:'12px'}}>Legend</h3>
         <div style={{ marginLeft: '15px', marginBottom: '12px' }}>

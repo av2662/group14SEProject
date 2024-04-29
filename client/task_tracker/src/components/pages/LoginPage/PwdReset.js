@@ -1,3 +1,9 @@
+/*--------------------------------------------------------------
+Handles the case if the user forgot their password.
+An email with a passcode is sent to the user. The user will then use this
+code to verify that they wish to change their password. If they enter the correct passcode
+the user can enter a new password.
+-----------------------------------------------------------*/
 import React, { useState } from 'react';
 import './PwdReset.css';
 import Axios from 'axios';

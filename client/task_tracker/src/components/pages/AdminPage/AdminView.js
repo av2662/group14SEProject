@@ -1,3 +1,6 @@
+/*-----------------------------------------
+This file contains the logic for our admin page.
+------------------------------------------*/
 import React, { useState, useEffect } from 'react';
 import Axios from 'axios'; // Import Axios for making HTTP requests
 import './AdminView.css';

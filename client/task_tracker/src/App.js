@@ -1,3 +1,9 @@
+/*----------------------------------
+This page user the router library to 
+establish all the links for our page.
+Private routes are establish to ensure
+only valid users can access them directly.
+-------------------------------------*/
 import './App.css';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
@@ -18,10 +24,10 @@ function App() {
   const user = window.localStorage.getItem("user"); 
   const isAdmin = window.localStorage.getItem("isAdmin");
   
-  
+  //Navbar is established here to ensure its available throughout the site.
   return (
     <Router>
-      <Navbar />
+      <Navbar /> 
       <Routes>
         <Route path="/" element={<Homep/>}></Route>
         <Route path="/login" element={<Login/>}></Route>

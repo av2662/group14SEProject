@@ -1,3 +1,8 @@
+/*---------------------------------
+This files contains the function that is used in 
+the homep.js file. This is filled dynamically with the
+code in the data.js file. These two files can be located in the pages folder.
+----------------------------------*/
 import React from 'react'
 import { Button } from './Button';
 import { Link } from 'react-router-dom';

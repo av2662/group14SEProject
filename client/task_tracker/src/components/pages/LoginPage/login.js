@@ -1,3 +1,13 @@
+/*-----------------
+This file contains all the logic for logging in.
+After successfull log on, the user is taken to the
+calendar page. The appropriate variables are stored about the 
+user. The local storage variables are used throughout the site
+to retrieve the information about the logged on user. 
+
+The login page also has the feature for forget password.
+This logic is in the PwdReset.js
+------------------*/
 import './login.css';
 import email_icon from './email.png';
 import password_icon from './password.png';
